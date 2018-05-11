@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/04/27 02:10:58 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/11 18:59:41 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ int	deal_key(int key, void *param)
 	return (0);
 }
 
+void	ft_setsegment(void *mlx_image, void *mlx_ptr, void *win_ptr)
+{
+
+	return ;
+}
+
 int	main(void)
 {
 	void	*mlx_ptr;
@@ -103,8 +109,24 @@ int	main(void)
 	int		bpb;
 	int		s_line;
 	int		endian;
+	int		i;
+	int e;
+	int dx;
+	int dy;
+	int x1;
+	int x2;
+	int y1;
+	int y2;
 	t_window	window;
 	//color = 0X071BFF;
+	i = 0;
+	x1 = 70;
+	y1 = 210;
+	x2 = 200;
+	y2 = 90;
+	e = x2 - x1;
+	dx = e * 2;
+	dy = (y2 - y1) * 2;
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, 2000, 1300, "hello");
 	window.mlx_ptr = mlx_ptr;
@@ -113,16 +135,43 @@ int	main(void)
 	str = mlx_get_data_addr(mlx_image, &bpb, &s_line, &endian);
 	color = mlx_get_color_value(mlx_ptr, 0x0FFF30);
 	essai = (unsigned int *)str;
-	essai[700] = color;
-	essai[24] = color;
-	essai[25] = color;
-	essai[26] = color;
-	essai[27] = color;
-	essai[28] = color;
+	//essai[700] = color;
+	//essai[150] = color;
+//	essai[200] = color;
+//	essai[201] = color;
+//	essai[250] = color;
+//	essai[251] = color;
+//	essai[300] = color;
+	mlx_pixel_put(mlx_ptr, win_ptr, x2, y2, 0xFFFFFF);
+	mlx_pixel_put(mlx_ptr, win_ptr, x1, y1, 0xFF0000);
+	while (x1 <= x2)
+	{
+		i = (300 * y1) + x1;
+		essai[i] = color;
+		x1 = x1 + 1;
+		if ((e = e - dy) <= 0)
+		{
+			y1 = y1 + 1;
+			e = e + dx;
+		}
+		/*else if (e < (e - dy))
+		{
+			y1 = y1 - 1;
+			e = e + dy;
+		}*/
+	}
+	//essai[301] = color;
+	//essai[300] = color;
+	//essai[24] = color;
+	//essai[25] = color;
+	//essai[26] = color;
+	//essai[27] = color;
+	//essai[28] = color;
+	//ft_setsegment(&mlx_image, &mlx_ptr, &win_ptr);
 	//ft_setwindows(mlx_image, win_ptr, color);
 	mlx_put_image_to_window(mlx_ptr, win_ptr, mlx_image, 0, 0);
 	//ft_setwindows(mlx_ptr, win_ptr, color);
-	//mlx_key_hook(win_ptr, deal_key, (void *)&window);
+	mlx_key_hook(win_ptr, deal_key, (void *)&window);
 	mlx_loop(mlx_ptr);
 	return (0);
 }
