@@ -34,15 +34,12 @@ SRC =	ft_atoi.c \
 		ft_memmove.c \
 		ft_memset.c \
 		ft_putchar.c \
-		ft_putchar_return.c \
 		ft_putchar_fd.c \
 		ft_putendl.c \
 		ft_putendl_fd.c \
-		ft_putnbr_return.c \
 		ft_putnbr.c \
 		ft_putnbr_fd.c \
 		ft_putstr.c \
-		ft_putstr_return.c \
 		ft_putstr_fd.c \
 		ft_split_whitespaces.c \
 		ft_sqrt.c \
@@ -77,7 +74,7 @@ SRC =	ft_atoi.c \
 		ft_swap.c \
 		ft_tolower.c \
 		ft_toupper.c \
-		ft_putnbrunsigned.c
+		gnl.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

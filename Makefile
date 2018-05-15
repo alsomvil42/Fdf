@@ -10,27 +10,27 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = fdf.c \
+SRC = main.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-NAME = libftfdf.a
+NAME = fdf
 
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc fdf.a $(OBJ)
 	make -C libft
-	libtool libft/libft.a fdf.a -o $(NAME)
-	rm -f ftprintf.a
+	make -C minilibx
+	gcc -o $(NAME) $(OBJ) libft/libft.a minilibx/libmlx.a -lX11 -lXext
 
-%.o: %.c
-	gcc $(FLAGS) -c -I include -I libft $^ -o $@
+%.o: src/%.c
+	gcc -c -I include -I libft -I minilibx $^ -o $@
+	
 
 clean :
 	make clean -C libft
-	rm -rf $(OBJ)
+	rm -rf *.o 
 
 fclean: clean
 	make fclean -C libft
