@@ -117,7 +117,17 @@ int	deal_key(int key, void *param)
 	return (0);
 }
 
+<<<<<<< HEAD
 void	ft_setsegment(unsigned int *str, t_map *map, t_trace *trace)
+=======
+void	ft_setsegment(void *mlx_image, void *mlx_ptr, void *win_ptr)
+{
+
+	return ;
+}
+
+int	main(void)
+>>>>>>> ed3987c2b50bc2c111cf6f32f62847e0036c6af3
 {
 	int dx;
 	int x1;
@@ -493,6 +503,7 @@ void	ft_createmap(t_window *win, t_map *map, t_trace *trace)
 	int		bpb;
 	int		s_line;
 	int		endian;
+<<<<<<< HEAD
 
 	map->color_map = mlx_get_color_value(win->mlx_ptr, 0x0FFF30);
 	win->mlx_map_base = mlx_new_image(win->mlx_ptr, 700, 200);
@@ -520,5 +531,71 @@ int	main(int ac, char **av)
 	ft_createmap(&win, &map, &trace);
 	mlx_key_hook(win.win_ptr, deal_key, (void *)&win);
 	mlx_loop(win.mlx_ptr);
+=======
+	int		i;
+	int e;
+	int dx;
+	int dy;
+	int x1;
+	int x2;
+	int y1;
+	int y2;
+	t_window	window;
+	//color = 0X071BFF;
+	i = 0;
+	x1 = 70;
+	y1 = 210;
+	x2 = 200;
+	y2 = 90;
+	e = x2 - x1;
+	dx = e * 2;
+	dy = (y2 - y1) * 2;
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, 2000, 1300, "hello");
+	window.mlx_ptr = mlx_ptr;
+	window.win_ptr = win_ptr;
+	mlx_image = mlx_new_image(mlx_ptr, 300, 500);
+	str = mlx_get_data_addr(mlx_image, &bpb, &s_line, &endian);
+	color = mlx_get_color_value(mlx_ptr, 0x0FFF30);
+	essai = (unsigned int *)str;
+	//essai[700] = color;
+	//essai[150] = color;
+//	essai[200] = color;
+//	essai[201] = color;
+//	essai[250] = color;
+//	essai[251] = color;
+//	essai[300] = color;
+	mlx_pixel_put(mlx_ptr, win_ptr, x2, y2, 0xFFFFFF);
+	mlx_pixel_put(mlx_ptr, win_ptr, x1, y1, 0xFF0000);
+	while (x1 <= x2)
+	{
+		i = (300 * y1) + x1;
+		essai[i] = color;
+		x1 = x1 + 1;
+		if ((e = e - dy) <= 0)
+		{
+			y1 = y1 + 1;
+			e = e + dx;
+		}
+		/*else if (e < (e - dy))
+		{
+			y1 = y1 - 1;
+			e = e + dy;
+		}*/
+	}
+	//essai[301] = color;
+	//essai[300] = color;
+	//essai[24] = color;
+	//essai[25] = color;
+	//essai[26] = color;
+	//essai[27] = color;
+	//essai[28] = color;
+	//ft_setsegment(&mlx_image, &mlx_ptr, &win_ptr);
+	//ft_setwindows(mlx_image, win_ptr, color);
+	mlx_put_image_to_window(mlx_ptr, win_ptr, mlx_image, 0, 0);
+	//ft_setwindows(mlx_ptr, win_ptr, color);
+	mlx_key_hook(win_ptr, deal_key, (void *)&window);
+	mlx_loop(mlx_ptr);
+>>>>>>> ed3987c2b50bc2c111cf6f32f62847e0036c6af3
 	return (0);
 }
