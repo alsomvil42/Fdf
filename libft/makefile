@@ -6,7 +6,7 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/14 17:27:56 by alsomvil          #+#    #+#              #
-#    Updated: 2018/03/21 12:09:09 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/05/16 09:26:23 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,6 @@ SRC =	ft_atoi.c \
 		ft_swap.c \
 		ft_tolower.c \
 		ft_toupper.c \
-		gnl.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

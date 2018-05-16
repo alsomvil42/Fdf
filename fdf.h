@@ -6,25 +6,20 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/04/26 04:19:18 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/16 14:03:59 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FDF_H
+# define FDF_H
+
 #include "libft/libft.h"
+#include "get_next_line.h"
 #include "stdio.h"
 #include "unistd.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-typedef struct					s_window
-{
-	void *mlx_ptr;
-	void *win_ptr;
-	void *mlx_map_base;
-	void *mlx_legend;
-	void *mlx_image;
-}						t_window;
 
 typedef struct					s_map
 {
@@ -45,3 +40,23 @@ typedef struct					s_trace
 	int	pos_x;
 	int	pos_y;
 }						t_trace;
+
+typedef struct					s_window
+{
+	void *mlx_ptr;
+	void *win_ptr;
+	void *mlx_map_base;
+	void *mlx_legend;
+	void *mlx_image;
+	int size_image_x;
+	int size_image_y;
+	int bpb;
+	int s_line;
+	int endian;
+	t_map *map;
+	t_trace *trace;
+}						t_window;
+
+void	ft_setsegment(unsigned int *str, t_window *win);
+
+#endif

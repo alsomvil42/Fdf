@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/11 18:59:41 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/16 14:20:21 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,74 @@ void	ft_create_map2(t_window *win)
 	//mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->mlx_map_base, 600, 250);
 }
 
+void	ft_trace_map(unsigned int *image, t_window *win)
+{
+			/*printf("%d\n", win->trace->x1);
+			printf("%d\n", win->trace->x2);
+			printf("%d\n", win->trace->y1);
+			printf("%d\n", win->trace->y2);*/
+	while (win->trace->pos_y <= win->map->len_y)
+	{
+		while (win->trace->pos_x < win->map->len_x)
+		{
+			win->trace->x2 = win->trace->x1 + win->trace->space;
+			win->trace->y2 = win->trace->y1;
+			ft_setsegment(image, win);
+			win->trace->x1 = win->trace->x2;
+			win->trace->y1 = win->trace->y2;
+			win->trace->pos_x++;
+		}
+		win->trace->pos_x = 0;
+		win->trace->x1 = 0;
+		win->trace->y1 = win->trace->y1 + win->trace->space;
+		win->trace->pos_y++;
+	}
+	win->trace->pos_y = 0;
+	win->trace->y1 = 0;
+	while (win->trace->pos_x <= win->map->len_x)
+	{
+		while (win->trace->pos_y < win->map->len_y)
+		{
+			win->trace->x2 = win->trace->x1;
+			win->trace->y2 = win->trace->y1 + win->trace->space;
+			ft_setsegment(image, win);
+			win->trace->x1 = win->trace->x2;
+			win->trace->y1 = win->trace->y2;
+			win->trace->pos_y++;
+		}
+		win->trace->pos_y = 0;
+		win->trace->x1 = win->trace->x1 + win->trace->space;
+		win->trace->y1 = 0;
+		win->trace->pos_x++;
+	}
+}
+
 int	deal_key(int key, void *param)
 {
 	t_window	*test;
 	int			color;
+	unsigned int	*image;
+	char		*str;
 
 	color = 0x071bFF;
 	test = (t_window *)param;
 	printf("%d\n", key);
-	if (key == 99)
+	if (key == 2)
 	{
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 600, 250);
+		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
 		//ft_setwindows(test->mlx_ptr, test->win_ptr, color);
 		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
 	}
-	if (key == 65307)
+	if (key == 69)
+	{
+		/*test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
+		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
+		image = (unsigned int *)str;
+		ft_trace_map(image, &test->map, &test->trace);
+		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, (test->size_image_x + 20), test->size_image_y);
+		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);*/
+	}
+	if (key == 53)
 		exit(1);
 	if (key == 114)
 	{
@@ -115,250 +168,6 @@ int	deal_key(int key, void *param)
 	if (key == 108)
 		ft_setlegend(test->mlx_ptr, test->win_ptr);
 	return (0);
-}
-
-<<<<<<< HEAD
-void	ft_setsegment(unsigned int *str, t_map *map, t_trace *trace)
-=======
-void	ft_setsegment(void *mlx_image, void *mlx_ptr, void *win_ptr)
-{
-
-	return ;
-}
-
-int	main(void)
->>>>>>> ed3987c2b50bc2c111cf6f32f62847e0036c6af3
-{
-	int dx;
-	int x1;
-	int y1;
-	int x2;
-	int y2;
-	int dy;
-	int e;
-	int		i;
-
-	i = 0;
-	x1 = trace->x1;
-	y1 = trace->y1;
-	x2 = trace->x2;
-	y2 = trace->y2;
-	if ((dx = x2 - x1) != 0)
-	{
-		if (dx > 0)
-		{
-			if ((dy = y2 - y1) != 0)
-			{
-				if (dy > 0)
-				{
-					if (dx >= dy)
-					{
-						e = 0;
-						dx = (e = dx) * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((x1 = x1 + 1) == x2)
-								break ;
-							if ((e = e - dy) < 0)
-							{
-								y1 = y1 + 1;
-								e = e + dx;
-							}
-						}
-					}
-					else
-					{
-						e = 0;
-						dy = (e = dy) * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((y1 = y1 + 1) == y2)
-								break ;
-							if ((e = e - dx) < 0)
-							{
-								x1 = x1 + 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (dx >= -dy)
-					{
-						e = 0;
-						dx = (e = dx) * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((x1 = x1 + 1) == x2)
-								break ;
-							if ((e = e - dy) < 0)
-							{
-								y1 = y1 - 1;
-								e = e + dx;
-							}
-						}
-						
-					}
-					else
-					{
-						e = 0;
-						dy = (e = dy) * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((y1 = y1 - 1) == y2)
-								break ;
-							if ((e = e + dx) > 0)
-							{
-								x1 = x1 + 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				while (x1 != x2)
-				{
-					i = (700 * y1) + x1;
-					str[i] = map->color_map;
-					x1 = x1 + 1;					
-				}
-			}
-		}
-		else
-		{
-			if ((dy = y2 - y1) != 0)
-			{
-				if (dy > 0)
-				{
-					if (-dx >= dy)
-					{
-						e = 0;
-						dx = (e = dx) * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((x1 = x1 - 1) == x2)
-								break ;
-							if ((e = e + dy) >= 0)
-							{
-								y1 = y1 + 1;
-								e = e + dx;
-							}
-						}
-					}
-					else
-					{
-						e = 0;
-						dy = (e = dy) * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((y1 = y1 + 1) == y2)
-								break ;
-							if ((e = e + dx) <= 0)
-							{
-								x1 = x1 - 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (dx <= dy)
-					{
-						e = 0;
-						dx = (e = dx) * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((x1 = x1 - 1) == x2)
-								break ;
-							if ((e = e - dy) >= 0)
-							{
-								y1 = y1 - 1;
-								e = e + dx;
-							}
-						}
-						
-					}
-					else
-					{
-						e = 0;
-						dy = (e = dy) * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							i = (700 * y1) + x1;
-							str[i] = map->color_map;
-							if ((y1 = y1 - 1) == y2)
-								break ;
-							if ((e = e - dx) >= 0)
-							{
-								x1 = x1 - 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				while (x1 != x2)
-				{
-					i = (700 * y1) + x1;
-					str[i] = map->color_map;
-					x1 = x1 - 1;					
-				}
-			}
-		}
-	}
-	else
-	{
-		if ((dy = y2 - y1) != 0)
-		{
-			if (dy > 0)
-			{
-				while (y1 != y2)
-				{
-					i = (700 * y1) + x1;
-					str[i] = map->color_map;
-					y1 = y1 + 1;					
-				}
-			}
-			else
-			{
-				while (y1 != y2)
-				{
-					i = (700 * y1) + x1;
-					str[i] = map->color_map;
-					y1 = y1 - 1;					
-				}
-			}
-		}
-	}
-	return ;
 }
 
 void	ft_createtab(t_map *map, char **tab)
@@ -384,7 +193,7 @@ void	ft_createtab(t_map *map, char **tab)
 		{
 			map->tabint[i][k] = (tab[i][j] - 48);
 			k++;
-			j++; 	
+			j++;
 			while (tab[i][j] && tab[i][j] == ' ')
 				j++;
 		}
@@ -392,19 +201,19 @@ void	ft_createtab(t_map *map, char **tab)
 		j = 0;
 		i++;
 	}
-	/*i = 0;
+	i = 0;
 	j = 0;
-	while (i < 5)
+	while (i < map->len_y)
 	{
-		while (j < 5)
+		while (j < map->len_x)
 		{
 			printf("%d ", map->tabint[i][j]);
-			j++;			
+			j++;
 		}
 		printf("\n");
 		j = 0;
 		i++;
-	}*/
+	}
 }
 
 void	ft_stocktab(t_map *map, char *str)
@@ -437,10 +246,17 @@ void	ft_stocktab(t_map *map, char *str)
 
 void	ft_set_struct(t_window *win, t_map *map, t_trace *trace)
 {
+	win->map = map;
+	win->trace= trace;
 	win->mlx_ptr = NULL;
 	win->win_ptr = NULL;
+	win->bpb = 0;
+	win->s_line = 0;
+	win->endian = 0;
 	win->mlx_map_base = NULL;
 	win->mlx_legend = NULL;
+	win->size_image_x = 600;
+	win->size_image_y = 250;
 	win->mlx_image = NULL;
 	map->len_x = 0;
 	map->len_y = 0;
@@ -456,60 +272,17 @@ void	ft_set_struct(t_window *win, t_map *map, t_trace *trace)
 	trace->space = 10;
 }
 
-void	ft_trace_map(unsigned int *image, t_map *map, t_trace *trace)
-{
-	while (trace->pos_y <= map->len_y)
-	{
-		while (trace->pos_x < map->len_x)
-		{
-			trace->x2 = trace->x1 + trace->space;
-			trace->y2 = trace->y1;
-			ft_setsegment(image, map, trace);
-			trace->x1 = trace->x2;
-			trace->y1 = trace->y2;
-			trace->pos_x++;
-		}
-		trace->pos_x = 0;
-		trace->x1 = 0;
-		trace->y1 = trace->y1 + trace->space;
-		trace->pos_y++;
-	}
-	trace->pos_y = 0;
-	trace->y1 = 0;
-	while (trace->pos_x <= map->len_x)
-	{
-		while (trace->pos_y < map->len_y)
-		{
-			trace->x2 = trace->x1;
-			trace->y2 = trace->y1 + trace->space;
-			ft_setsegment(image, map, trace);
-			trace->x1 = trace->x2;
-			trace->y1 = trace->y2;
-			trace->pos_y++;
-		}
-		trace->pos_y = 0;
-		trace->x1 = trace->x1 + trace->space;
-		trace->y1 = 0;
-		trace->pos_x++;
-	}
-}
 
-
-void	ft_createmap(t_window *win, t_map *map, t_trace *trace)
+void	ft_createmap(t_window *win)
 {
 	unsigned int	*image;
 	char		*str;
-	unsigned int	color;
-	int		bpb;
-	int		s_line;
-	int		endian;
-<<<<<<< HEAD
 
-	map->color_map = mlx_get_color_value(win->mlx_ptr, 0x0FFF30);
-	win->mlx_map_base = mlx_new_image(win->mlx_ptr, 700, 200);
-	str = mlx_get_data_addr(win->mlx_map_base, &bpb, &s_line, &endian);
+	win->map->color_map = mlx_get_color_value(win->mlx_ptr, 0x0FFF30);
+	win->mlx_map_base = mlx_new_image(win->mlx_ptr, 1500, 900);
+	str = mlx_get_data_addr(win->mlx_map_base, &win->bpb, &win->s_line, &win->endian);
 	image = (unsigned int *)str;
-	ft_trace_map(image, map, trace);
+	ft_trace_map(image, win);
 	//mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->mlx_map_base, 600, 250);
 }
 
@@ -521,81 +294,15 @@ int	main(int ac, char **av)
 
 	ft_set_struct(&win, &map, &trace);
 	win.mlx_ptr = mlx_init();
-	win.win_ptr = mlx_new_window(win.mlx_ptr, 1250, 600, "hello");
+	win.win_ptr = mlx_new_window(win.mlx_ptr, 1500, 900, "hello");
 	if (ac != 2)
 	{
 		ft_putstr("nombre de parametre incorrecte");
 		return (0);
 	}
 	ft_stocktab(&map, av[1]);
-	ft_createmap(&win, &map, &trace);
+	ft_createmap(&win);
 	mlx_key_hook(win.win_ptr, deal_key, (void *)&win);
 	mlx_loop(win.mlx_ptr);
-=======
-	int		i;
-	int e;
-	int dx;
-	int dy;
-	int x1;
-	int x2;
-	int y1;
-	int y2;
-	t_window	window;
-	//color = 0X071BFF;
-	i = 0;
-	x1 = 70;
-	y1 = 210;
-	x2 = 200;
-	y2 = 90;
-	e = x2 - x1;
-	dx = e * 2;
-	dy = (y2 - y1) * 2;
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 2000, 1300, "hello");
-	window.mlx_ptr = mlx_ptr;
-	window.win_ptr = win_ptr;
-	mlx_image = mlx_new_image(mlx_ptr, 300, 500);
-	str = mlx_get_data_addr(mlx_image, &bpb, &s_line, &endian);
-	color = mlx_get_color_value(mlx_ptr, 0x0FFF30);
-	essai = (unsigned int *)str;
-	//essai[700] = color;
-	//essai[150] = color;
-//	essai[200] = color;
-//	essai[201] = color;
-//	essai[250] = color;
-//	essai[251] = color;
-//	essai[300] = color;
-	mlx_pixel_put(mlx_ptr, win_ptr, x2, y2, 0xFFFFFF);
-	mlx_pixel_put(mlx_ptr, win_ptr, x1, y1, 0xFF0000);
-	while (x1 <= x2)
-	{
-		i = (300 * y1) + x1;
-		essai[i] = color;
-		x1 = x1 + 1;
-		if ((e = e - dy) <= 0)
-		{
-			y1 = y1 + 1;
-			e = e + dx;
-		}
-		/*else if (e < (e - dy))
-		{
-			y1 = y1 - 1;
-			e = e + dy;
-		}*/
-	}
-	//essai[301] = color;
-	//essai[300] = color;
-	//essai[24] = color;
-	//essai[25] = color;
-	//essai[26] = color;
-	//essai[27] = color;
-	//essai[28] = color;
-	//ft_setsegment(&mlx_image, &mlx_ptr, &win_ptr);
-	//ft_setwindows(mlx_image, win_ptr, color);
-	mlx_put_image_to_window(mlx_ptr, win_ptr, mlx_image, 0, 0);
-	//ft_setwindows(mlx_ptr, win_ptr, color);
-	mlx_key_hook(win_ptr, deal_key, (void *)&window);
-	mlx_loop(mlx_ptr);
->>>>>>> ed3987c2b50bc2c111cf6f32f62847e0036c6af3
 	return (0);
 }
