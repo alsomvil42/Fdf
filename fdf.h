@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/16 14:03:59 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/18 04:35:12 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <math.h>
+#include <stdlib.h>
+#include "minilibx/mlx.h"
 
 typedef struct					s_map
 {
@@ -36,9 +39,13 @@ typedef struct					s_trace
 	int	y1;
 	int	x2;
 	int	y2;
+	int temp_x1;
+	int temp_x2;
 	int	space;
 	int	pos_x;
 	int	pos_y;
+	int	x1_base;
+	int	y1_base;
 }						t_trace;
 
 typedef struct					s_window
@@ -58,5 +65,10 @@ typedef struct					s_window
 }						t_window;
 
 void	ft_setsegment(unsigned int *str, t_window *win);
+void	ft_trace_map(unsigned int *image, t_window *win);
+int		deal_key(int key, void *param);
+void	ft_stocktab(t_map *map, char *str);
+void	ft_trace_rotation_map(unsigned int *image, t_window *win);
+void	ft_setsegment_rotate(unsigned int *str, t_window *win);
 
 #endif
