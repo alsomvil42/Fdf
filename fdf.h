@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/18 04:35:12 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/19 11:32:26 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct					s_trace
 	int	pos_y;
 	int	x1_base;
 	int	y1_base;
+	int	degres;
 }						t_trace;
 
 typedef struct					s_window

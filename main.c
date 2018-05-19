@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/18 21:00:00 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/19 11:53:51 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,90 +17,57 @@ void	ft_trace_rotation_map(unsigned int *image, t_window *win)
 	int	x3;
 	int	y3;
 
-
-	printf("pos_x = %d\n", win->trace->x1_base);
-	printf("pos_y = %d\n", win->trace->y1_base);
-	win->trace->x1 = win->trace->x1_base;
-	win->trace->y1 = win->trace->y1_base;
-	win->trace->x2 = win->trace->x1 + win->trace->space - win->trace->x1_base;
-	win->trace->y2 = win->trace->y1 - win->trace->y1_base;
-	x3 = win->trace->x2 + win->trace->space;
-	y3 = win->trace->y2;
-	win->trace->temp_x2 = win->trace->x2;
-	//win->trace->x2 = win->trace->x1 + win->trace->space;
-	//win->trace->y2 = win->trace->y1;
-	printf("X1 = %d\n", win->trace->x1);
-	printf("Y1 = %d\n", win->trace->y1);
-	printf("X2 = %d\n", win->trace->x2);
-	printf("Y2 = %d\n", win->trace->y2);
-	//win->trace->x2 = 600;
-	//win->trace->y2 = 410;
-	//win->trace->x1 = win->trace->x1 * cos(90) - win->trace->y1 * sin(90);
-	//win->trace->y1 = win->trace->temp_x1 * sin(90) + win->trace->y1 * cos(90);
-	win->trace->x2 = (win->trace->x2 * cos(1.57079632679)) + (win->trace->y2 * sin(1.57079632679)) + win->trace->x1_base;
-	win->trace->y2 = (-win->trace->temp_x2 * sin(1.57079632679)) + (win->trace->y2 * cos(1.57079632679)) + win->trace->y1_base;
-	//win->trace->x2 -= 400;
-	//win->trace->y2 -= 600;
-	/*win->trace->x1 += 600;
-	win->trace->x1 += 600;
-	win->trace->y1 += 400;
-	win->trace->x2 += 600;
-	win->trace->y2 += 400;*/
-	printf("%s\n", "-----------------------------------------------");
-	printf("X2 = %d\n", win->trace->x2);
-	printf("Y2 = %d\n", win->trace->y2);
-	ft_setsegment_rotate(image, win);
-	win->trace->x1 = win->trace->x2;
-	win->trace->y1 = win->trace->y2;
-	win->trace->x2 = x3;
-	win->trace->y2 = y3;
-	win->trace->temp_x2 = win->trace->x2;
-	win->trace->x2 = (win->trace->x2 * cos(1.57079632679)) + (win->trace->y2 * sin(1.57079632679)) + win->trace->x1_base;
-	win->trace->y2 = (-win->trace->temp_x2 * sin(1.57079632679)) + (win->trace->y2 * cos(1.57079632679)) + win->trace->y1_base;
-	ft_setsegment_rotate(image, win);
-	/*while (win->trace->pos_y <= win->map->len_y)
+	while (win->trace->pos_y <= win->map->len_y)
 	{
+		x3 = win->trace->x1_base + win->trace->pos_x * win->trace->space;
+		y3 = win->trace->y1_base + win->trace->pos_y * win->trace->space;
+		win->trace->x1 = win->trace->x1_base - win->trace->pos_y * win->trace->space;
+		win->trace->y1 = win->trace->y1_base;
+		win->trace->x2 = x3 + win->trace->space - win->trace->x1_base;
+		win->trace->y2 = y3 - win->trace->y1_base;
 		while (win->trace->pos_x < win->map->len_x)
 		{
-			win->trace->x2 = win->trace->x1 + win->trace->space;
-			win->trace->y2 = win->trace->y1;
-			win->trace->temp_x1 = win->trace->x2;
-			win->trace->temp_y1 = win->trace->y2;
-			win->trace->x1 = win->trace->x1 * cos(90) - win->trace->y1 * sin(90);
-			win->trace->y1 = win->trace->x1 * sin(90) + win->trace->y1 * cos(90);
+			x3 = win->trace->x2 + win->trace->space;
+			y3 = win->trace->y2;
+			win->trace->temp_x2 = win->trace->x2;
+			win->trace->x2 = (win->trace->x2 * cos(win->trace->degres * M_PI / 180)) + (win->trace->y2 * sin(win->trace->degres * M_PI / 180)) + win->trace->x1_base;
+			win->trace->y2 = (-win->trace->temp_x2 * sin(win->trace->degres * M_PI / 180)) + (win->trace->y2 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
 			ft_setsegment_rotate(image, win);
-			win->trace->x1 = win->trace->temp_x1;
-			win->trace->y1 = win->trace->temp_y1;
+			win->trace->x1 = win->trace->x2;
+			win->trace->y1 = win->trace->y2;
+			win->trace->x2 = x3;
+			win->trace->y2 = y3;
 			win->trace->pos_x++;
 		}
 		win->trace->pos_x = 0;
-		win->trace->x1 = win->trace->x1_base;
-		win->trace->y1 = win->trace->y1 + win->trace->space;
 		win->trace->pos_y++;
 	}
 	win->trace->pos_y = 0;
-	win->trace->y1 = win->trace->y1_base;
 	while (win->trace->pos_x <= win->map->len_x)
 	{
+		x3 = win->trace->x1_base + win->trace->pos_x * win->trace->space + win->trace->pos_y * win->trace->space;
+		y3 = win->trace->y1_base + win->trace->pos_y * win->trace->space;
+		win->trace->x1 = win->trace->x1_base;
+		win->trace->y1 = win->trace->y1_base + win->trace->pos_x * win->trace->space;
+		win->trace->x2 = x3 - win->trace->x1_base;
+		win->trace->y2 = y3 + win->trace->space - win->trace->y1_base;
 		while (win->trace->pos_y < win->map->len_y)
 		{
-			win->trace->x2 = win->trace->x1;
-			win->trace->y2 = win->trace->y1 + win->trace->space;
-			win->trace->temp_x1 = win->trace->x2;
-			win->trace->temp_y1 = win->trace->y2;
-			win->trace->x1 = win->trace->x1 * cos(90) - win->trace->y1 * sin(90);
-			win->trace->y1 = win->trace->x1 * sin(90) + win->trace->y1 * cos(90);
+			x3 = win->trace->x2;
+			y3 = win->trace->y2 + win->trace->space;
+			win->trace->temp_x2 = win->trace->x2;
+			win->trace->x2 = (win->trace->x2 * cos(win->trace->degres * M_PI / 180)) + (win->trace->y2 * sin(win->trace->degres * M_PI / 180)) + win->trace->x1_base;
+			win->trace->y2 = (-win->trace->temp_x2 * sin(win->trace->degres * M_PI / 180)) + (win->trace->y2 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
 			ft_setsegment_rotate(image, win);
-			win->trace->x1 = win->trace->temp_x1;
-			win->trace->y1 = win->trace->temp_y1;
+			win->trace->x1 = win->trace->x2;
+			win->trace->y1 = win->trace->y2;
+			win->trace->x2 = x3;
+			win->trace->y2 = y3;
 			win->trace->pos_y++;
 		}
 		win->trace->pos_y = 0;
-		win->trace->x1 = win->trace->x1 + win->trace->space;
-		win->trace->y1 = win->trace->y1_base;
 		win->trace->pos_x++;
 	}
-	win->trace->pos_x = 0;*/
 }
 
 void	ft_trace_map(unsigned int *image, t_window *win)

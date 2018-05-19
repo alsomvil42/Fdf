@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 23:36:59 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/18 02:41:25 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/19 11:55:05 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	deal_key(int key, void *param)
 	printf("%d\n", key);
 	if (key == 2) //touche D
 	{
+		test->trace->degres = 0;
 		test->trace->x1 = test->trace->x1_base;
 		test->trace->y1 = test->trace->y1_base;
 		test->trace->pos_x = 0;
@@ -125,16 +126,15 @@ int	deal_key(int key, void *param)
 	}
 	if (key == 15)
 	{
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
+		test->trace->degres += 10;
+		if (test->trace->degres == 360)
+			test->trace->degres = 0;
 		test->trace->pos_x = 0;
 		test->trace->pos_y = 0;
 		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
 		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
 		image = (unsigned int *)str;
-		printf("%s\n", "TEST");
 		ft_trace_rotation_map(image, test);
-		printf("%s\n", "TEST3");
 		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
 		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
 	}
