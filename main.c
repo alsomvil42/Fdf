@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/19 11:53:51 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/23 15:46:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	ft_trace_rotation_map(unsigned int *image, t_window *win)
 	{
 		x3 = win->trace->x1_base + win->trace->pos_x * win->trace->space;
 		y3 = win->trace->y1_base + win->trace->pos_y * win->trace->space;
-		win->trace->x1 = win->trace->x1_base - win->trace->pos_y * win->trace->space;
-		win->trace->y1 = win->trace->y1_base;
+		win->trace->y1 = win->trace->pos_y * win->trace->space + win->trace->pos_x * win->trace->space;
+		win->trace->x1 = 0;
+		win->trace->temp_x2 = win->trace->x1;
+		win->trace->x1 = (win->trace->x1 * cos(win->trace->degres * M_PI / 180)) + (win->trace->y1 * sin(win->trace->degres * M_PI / 180)) + win->trace->x1_base;
+		win->trace->y1 = (win->trace->temp_x2 * -sin(win->trace->degres * M_PI / 180)) + (win->trace->y1 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
 		win->trace->x2 = x3 + win->trace->space - win->trace->x1_base;
 		win->trace->y2 = y3 - win->trace->y1_base;
 		while (win->trace->pos_x < win->map->len_x)
@@ -31,7 +34,7 @@ void	ft_trace_rotation_map(unsigned int *image, t_window *win)
 			y3 = win->trace->y2;
 			win->trace->temp_x2 = win->trace->x2;
 			win->trace->x2 = (win->trace->x2 * cos(win->trace->degres * M_PI / 180)) + (win->trace->y2 * sin(win->trace->degres * M_PI / 180)) + win->trace->x1_base;
-			win->trace->y2 = (-win->trace->temp_x2 * sin(win->trace->degres * M_PI / 180)) + (win->trace->y2 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
+			win->trace->y2 = (win->trace->temp_x2 * -sin(win->trace->degres * M_PI / 180)) + (win->trace->y2 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
 			ft_setsegment_rotate(image, win);
 			win->trace->x1 = win->trace->x2;
 			win->trace->y1 = win->trace->y2;
@@ -39,16 +42,20 @@ void	ft_trace_rotation_map(unsigned int *image, t_window *win)
 			win->trace->y2 = y3;
 			win->trace->pos_x++;
 		}
+		win->trace->x1 = 0;
 		win->trace->pos_x = 0;
 		win->trace->pos_y++;
 	}
 	win->trace->pos_y = 0;
 	while (win->trace->pos_x <= win->map->len_x)
 	{
-		x3 = win->trace->x1_base + win->trace->pos_x * win->trace->space + win->trace->pos_y * win->trace->space;
+		x3 = win->trace->x1_base + win->trace->pos_x * win->trace->space;
 		y3 = win->trace->y1_base + win->trace->pos_y * win->trace->space;
-		win->trace->x1 = win->trace->x1_base;
-		win->trace->y1 = win->trace->y1_base + win->trace->pos_x * win->trace->space;
+		win->trace->y1 = 0;
+		win->trace->x1 = win->trace->pos_x * win->trace->space + win->trace->pos_y * win->trace->space;
+		win->trace->temp_x2 = win->trace->x1;
+		win->trace->x1 = (win->trace->x1 * cos(win->trace->degres * M_PI / 180)) + (win->trace->y1 * sin(win->trace->degres * M_PI / 180)) + win->trace->x1_base;
+		win->trace->y1 = (-win->trace->temp_x2 * sin(win->trace->degres * M_PI / 180)) + (win->trace->y1 * cos(win->trace->degres * M_PI / 180)) + win->trace->y1_base;
 		win->trace->x2 = x3 - win->trace->x1_base;
 		win->trace->y2 = y3 + win->trace->space - win->trace->y1_base;
 		while (win->trace->pos_y < win->map->len_y)
@@ -65,6 +72,7 @@ void	ft_trace_rotation_map(unsigned int *image, t_window *win)
 			win->trace->y2 = y3;
 			win->trace->pos_y++;
 		}
+		win->trace->y1 = 0;
 		win->trace->pos_y = 0;
 		win->trace->pos_x++;
 	}
@@ -137,7 +145,7 @@ void	ft_set_struct(t_window *win, t_map *map, t_trace *trace)
 	trace->pos_y = 0;
 	trace->x1_base = 600;
 	trace->y1_base = 400;
-	trace->space = 10;
+	trace->space = 40;
 }
 
 
@@ -153,7 +161,7 @@ void	ft_createmap(t_window *win)
 	ft_trace_map(image, win);
 }
 
-int	main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_window	win;
 	t_map		map;

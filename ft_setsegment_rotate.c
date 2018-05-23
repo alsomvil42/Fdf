@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/18 01:49:01 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/23 11:43:32 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 				{
 					if (dx >= -dy)
 					{
+//
 						e = 0;
 						dx = (e = dx) * 2;
 						dy = dy * 2;
@@ -78,7 +79,7 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 							str[i] = win->map->color_map;
 							if ((win->trace->x1 = win->trace->x1 + 1) == win->trace->x2)
 								break ;
-							if ((e = e - dy) < 0)
+							if ((e = e + dy) < 0)
 							{
 								win->trace->y1 = win->trace->y1 - 1;
 								e = e + dx;
