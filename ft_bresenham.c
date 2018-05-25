@@ -6,25 +6,29 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/23 11:43:32 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/25 16:35:51 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_setsegment_rotate(unsigned int *str, t_window *win)
+void	ft_bresenham(t_env *env)
 {
 	int dx;
 	int dy;
 	int e;
 	int		i;
+	int		temp;
 
 	i = 0;
-	if ((dx = win->trace->x2 - win->trace->x1) != 0)
+	temp = env->map.b1;
+	env->map.a1 = env->map.b1;
+	env->map.b1 = temp;
+	if ((dx = env->map.a2 - env->map.a1) != 0)
 	{
 		if (dx > 0)
 		{
-			if ((dy = win->trace->y2 - win->trace->y1) != 0)
+			if ((dy = env->map.b2 - env->map.b1) != 0)
 			{
 				if (dy > 0)
 				{
@@ -35,13 +39,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->x1 = win->trace->x1 + 1) == win->trace->x2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
 								break ;
 							if ((e = e - dy) < 0)
 							{
-								win->trace->y1 = win->trace->y1 + 1;
+								env->map.b1 = env->map.b1 + 1;
 								e = e + dx;
 							}
 						}
@@ -53,13 +57,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->y1 = win->trace->y1 + 1) == win->trace->y2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
 								break ;
 							if ((e = e - dx) < 0)
 							{
-								win->trace->x1 = win->trace->x1 + 1;
+								env->map.a1 = env->map.a1 + 1;
 								e = e + dy;
 							}
 						}
@@ -75,13 +79,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->x1 = win->trace->x1 + 1) == win->trace->x2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
 								break ;
 							if ((e = e + dy) < 0)
 							{
-								win->trace->y1 = win->trace->y1 - 1;
+								env->map.b1 = env->map.b1 - 1;
 								e = e + dx;
 							}
 						}
@@ -94,13 +98,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->y1 = win->trace->y1 - 1) == win->trace->y2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
 								break ;
 							if ((e = e + dx) > 0)
 							{
-								win->trace->x1 = win->trace->x1 + 1;
+								env->map.a1 = env->map.a1 + 1;
 								e = e + dy;
 							}
 						}
@@ -109,17 +113,17 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 			}
 			else
 			{
-				while (win->trace->x1 != win->trace->x2)
+				while (env->map.a1 != env->map.a2)
 				{
-					i = (1500 * win->trace->y1) + win->trace->x1;
-					str[i] = win->map->color_map;
-					win->trace->x1 = win->trace->x1 + 1;
+					i = (env->size_image_x * env->map.b1) + env->map.a1;
+					env->str[i] = env->map.color;
+					env->map.a1 = env->map.a1 + 1;
 				}
 			}
 		}
 		else
 		{
-			if ((dy = win->trace->y2 - win->trace->y1) != 0)
+			if ((dy = env->map.b2 - env->map.b1) != 0)
 			{
 				if (dy > 0)
 				{
@@ -130,13 +134,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->x1 = win->trace->x1 - 1) == win->trace->x2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
 								break ;
 							if ((e = e + dy) >= 0)
 							{
-								win->trace->y1 = win->trace->y1 + 1;
+								env->map.b1 = env->map.b1 + 1;
 								e = e + dx;
 							}
 						}
@@ -148,13 +152,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->y1 = win->trace->y1 + 1) == win->trace->y2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
 								break ;
 							if ((e = e + dx) <= 0)
 							{
-								win->trace->x1 = win->trace->x1 - 1;
+								env->map.a1 = env->map.a1 - 1;
 								e = e + dy;
 							}
 						}
@@ -169,13 +173,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->x1 = win->trace->x1 - 1) == win->trace->x2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
 								break ;
 							if ((e = e - dy) >= 0)
 							{
-								win->trace->y1 = win->trace->y1 - 1;
+								env->map.b1 = env->map.b1 - 1;
 								e = e + dx;
 							}
 						}
@@ -188,13 +192,13 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (1500 * win->trace->y1) + win->trace->x1;
-							str[i] = win->map->color_map;
-							if ((win->trace->y1 = win->trace->y1 - 1) == win->trace->y2)
+							i = (env->size_image_x * env->map.b1) + env->map.a1;
+							env->str[i] = env->map.color;
+							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
 								break ;
 							if ((e = e - dx) >= 0)
 							{
-								win->trace->x1 = win->trace->x1 - 1;
+								env->map.a1 = env->map.a1 - 1;
 								e = e + dy;
 							}
 						}
@@ -203,35 +207,35 @@ void	ft_setsegment_rotate(unsigned int *str, t_window *win)
 			}
 			else
 			{
-				while (win->trace->x1 != win->trace->x2)
+				while (env->map.a1 != env->map.a2)
 				{
-					i = (1500 * win->trace->y1) + win->trace->x1;
-					str[i] = win->map->color_map;
-					win->trace->x1 = win->trace->x1 - 1;
+					i = (env->size_image_x * env->map.b1) + env->map.a1;
+					env->str[i] = env->map.color;
+					env->map.a1 = env->map.a1 - 1;
 				}
 			}
 		}
 	}
 	else
 	{
-		if ((dy = win->trace->y2 - win->trace->y1) != 0)
+		if ((dy = env->map.b2 - env->map.b1) != 0)
 		{
 			if (dy > 0)
 			{
-				while (win->trace->y1 != win->trace->y2)
+				while (env->map.b1 != env->map.b2)
 				{
-					i = (1500 * win->trace->y1) + win->trace->x1;
-					str[i] = win->map->color_map;
-					win->trace->y1 = win->trace->y1 + 1;
+					i = (env->size_image_x * env->map.b1) + env->map.a1;
+					env->str[i] = env->map.color;
+					env->map.b1 = env->map.b1 + 1;
 				}
 			}
 			else
 			{
-				while (win->trace->y1 != win->trace->y2)
+				while (env->map.b1 != env->map.b2)
 				{
-					i = (1500 * win->trace->y1) + win->trace->x1;
-					str[i] = win->map->color_map;
-					win->trace->y1 = win->trace->y1 - 1;
+					i = (env->size_image_x * env->map.b1) + env->map.a1;
+					env->str[i] = env->map.color;
+					env->map.b1 = env->map.b1 - 1;
 				}
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 23:36:59 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/23 11:11:30 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/25 15:35:56 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,129 +14,15 @@
 
 int	deal_key(int key, void *param)
 {
-	t_window	*test;
-	int			color;
-	unsigned int	*image;
-	char		*str;
+	t_env	*env;
 
-	color = 0x071bFF;
-	test = (t_window *)param;
+	env = (t_env *)param;
 	printf("%d\n", key);
-	if (key == 2) //touche D
+	if (key == 86 || key == 84 || key == 88 || key == 91)
 	{
-		test->trace->degres = 0;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 69) // ZOOM
-	{
-		test->trace->x1_base = test->trace->x1_base - 15;
-		test->trace->y1_base = test->trace->y1_base - 15;
-		test->trace->space = test->trace->space + 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 78 && test->trace->space >= 10) // DEZOOM
-	{
-		test->trace->x1_base = test->trace->x1_base + 15;
-		test->trace->y1_base = test->trace->y1_base + 15;
-		test->trace->space = test->trace->space - 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 124)
-	{
-		test->trace->x1_base = test->trace->x1_base + 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 123)
-	{
-		test->trace->x1_base = test->trace->x1_base - 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 125)
-	{
-		test->trace->y1_base = test->trace->y1_base + 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 126)
-	{
-		test->trace->y1_base = test->trace->y1_base - 10;
-		test->trace->x1 = test->trace->x1_base;
-		test->trace->y1 = test->trace->y1_base;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
-	}
-	if (key == 15)
-	{
-		test->trace->degres += 10;
-		if (test->trace->degres == 360)
-			test->trace->degres = 0;
-		test->trace->pos_x = 0;
-		test->trace->pos_y = 0;
-		test->mlx_map_base = mlx_new_image(test->mlx_ptr, 1500, 900);
-		str = mlx_get_data_addr(test->mlx_map_base, &test->bpb, &test->s_line, &test->endian);
-		image = (unsigned int *)str;
-		ft_trace_rotation_map(image, test);
-		mlx_put_image_to_window(test->mlx_ptr, test->win_ptr, test->mlx_map_base, 0, 0);
-		mlx_destroy_image(test->mlx_ptr, test->mlx_map_base);
+		ft_rotate(env, key);
+		printf("%s\n", "OK");
+		mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->mlx_image, 0, 0);
 	}
 	if (key == 53)
 		exit(1);
