@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/25 16:35:51 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:05:39 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_bresenham(t_env *env)
 	int dy;
 	int e;
 	int		i;
-	int		temp;
 
 	i = 0;
-	temp = env->map.b1;
-	env->map.a1 = env->map.b1;
-	env->map.b1 = temp;
+	printf("X1 =  %d     ", env->map.a1);
+	printf("Y1  = %d\n     ", env->map.b1);
+	printf("X2 =  %d     ", env->map.a2);
+	printf("Y2  = %d\n     ", env->map.b2);
 	if ((dx = env->map.a2 - env->map.a1) != 0)
 	{
 		if (dx > 0)
@@ -225,7 +225,8 @@ void	ft_bresenham(t_env *env)
 				while (env->map.b1 != env->map.b2)
 				{
 					i = (env->size_image_x * env->map.b1) + env->map.a1;
-					env->str[i] = env->map.color;
+					if (((i - (env->size_image_x * env->map.b1)) >= 0) && ((i - (env->size_image_x * env->map.b1)) < env->size_image_x) && i >= 0)
+						env->str[i] = env->map.color;
 					env->map.b1 = env->map.b1 + 1;
 				}
 			}

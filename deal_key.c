@@ -6,11 +6,21 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 23:36:59 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/25 15:35:56 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:06:27 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	ft_create_image(t_env *env)
+{
+	char		*str;
+
+	env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0FFF30);
+	env->mlx_image = mlx_new_image(env->mlx_ptr, env->size_image_x, env->size_image_y);
+	str = mlx_get_data_addr(env->mlx_image, &env->bpb, &env->s_line, &env->endian);
+	env->str = (unsigned int *)str;
+}
 
 int	deal_key(int key, void *param)
 {
@@ -20,9 +30,10 @@ int	deal_key(int key, void *param)
 	printf("%d\n", key);
 	if (key == 86 || key == 84 || key == 88 || key == 91)
 	{
+		ft_create_image(env);
 		ft_rotate(env, key);
-		printf("%s\n", "OK");
 		mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->mlx_image, 0, 0);
+		mlx_destroy_image(env->mlx_ptr, env->mlx_image);
 	}
 	if (key == 53)
 		exit(1);

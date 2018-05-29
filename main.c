@@ -6,22 +6,11 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/25 15:57:47 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:02:10 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_create_image(t_env *env)
-{
-	char		*str;
-
-	env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0FFF30);
-	env->mlx_image = mlx_new_image(env->mlx_ptr, 1500, 900);
-	str = mlx_get_data_addr(env->mlx_image, &env->bpb, &env->s_line, &env->endian);
-	env->str = (unsigned int *)str;
-	//ft_trace_map(image, win);
-}
 
 void	ft_init_struct(t_env *env)
 {
@@ -61,7 +50,6 @@ int		main(int ac, char **av)
 		return (0);
 	}
 	ft_parcetab_int(&env, av[1]);
-	ft_create_image(&env);
 	mlx_key_hook(env.win_ptr, deal_key, (void *)&env);
 	mlx_loop(env.mlx_ptr);
 	return (0);
