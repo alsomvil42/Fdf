@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/29 18:02:10 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/30 16:28:30 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	ft_init_struct(t_env *env)
 	env->map.degres_x = 0;
 	env->map.degres_y = 0;
 	env->map.color = 0;
-	env->map.space = 10;
-
+	env->map.space = 40;
 	env->fd = 0;
 	env->size_image_x = 1800;
 	env->size_image_y = 1200;

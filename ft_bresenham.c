@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/29 18:05:39 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/30 16:29:09 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 void	ft_bresenham(t_env *env)
 {
-	int dx;
-	int dy;
-	int e;
+	int		dx;
+	int		dy;
+	int		e;
 	int		i;
 
 	i = 0;
-	printf("X1 =  %d     ", env->map.a1);
-	printf("Y1  = %d\n     ", env->map.b1);
-	printf("X2 =  %d     ", env->map.a2);
-	printf("Y2  = %d\n     ", env->map.b2);
 	if ((dx = env->map.a2 - env->map.a1) != 0)
 	{
 		if (dx > 0)

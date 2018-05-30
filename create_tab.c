@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/29 17:01:33 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/30 16:27:58 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	ft_fill_tab(t_env *env, char **tab)
 			k++;
 		while (tab[i][k] && ft_isdigit(tab[i][k]))
 			res = (res * 10) + (tab[i][k++] - '0');
-		//printf("%d\n", i);
-		//printf("%d\n", j);
 		env->map.tabint[i][j++] = res;
 		if (tab[i][k] == '\0')
 		{
@@ -46,9 +44,6 @@ void	ft_createtab(t_env *env, char **tab)
 	int		i;
 
 	i = 0;
-	//tab = NULL;
-	//printf("len Y = %d\n", env->map.len_y);
-	//printf("len X = %d\n", env->map.len_x);
 	env->map.tabint = ft_memalloc(sizeof(int *) * (env->map.len_y + 1));
 	while (i < env->map.len_x)
 		env->map.tabint[i++] = ft_memalloc(sizeof(int) * (env->map.len_x + 1));
