@@ -30,7 +30,7 @@ int		deal_key(int key, void *param)
 
 	env = (t_env *)param;
 	printf("%d\n", key);
-	if (key == 86 || key == 84 || key == 88 || key == 91)
+	if (key == 65430 || key == 65432 || key == 65431 || key == 65433)
 	{
 		ft_create_image(env);
 		ft_rotate(env, key);
@@ -38,7 +38,7 @@ int		deal_key(int key, void *param)
 				env->mlx_image, 0, 0);
 		mlx_destroy_image(env->mlx_ptr, env->mlx_image);
 	}
-	if (key == 53)
+	if (key == 65307)
 		exit(1);
 	return (0);
 }

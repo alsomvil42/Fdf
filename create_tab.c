@@ -45,7 +45,7 @@ void	ft_createtab(t_env *env, char **tab)
 
 	i = 0;
 	env->map.tabint = ft_memalloc(sizeof(int *) * (env->map.len_y + 1));
-	while (i < env->map.len_x)
+	while (i < env->map.len_y)
 		env->map.tabint[i++] = ft_memalloc(sizeof(int) * (env->map.len_x + 1));
 	ft_fill_tab(env, tab);
 }

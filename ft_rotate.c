@@ -29,12 +29,11 @@ void	ft_rotate_y(t_env *env)
 	printf("BASE %d     ", x1);
 	printf("%d    ", y1);
 	printf("%d\n", z1);
-	//env->map.a2 = x1 * cos(env->map.degres_x * M_PI / 180)
-	//+ z1 * sin(env->map.degres_x * M_PI /180) + x1 * 1;
-	//env->map.b2 = y1 * 1;
 	env->map.a2 = x1 * 1;
+	env->map.a2 = env->map.a2 * cos(env->map.degres_x * M_PI / 180) + z1 * sin(env->map.degres_x * M_PI /180);
 	env->map.b2 = y1 * cos(env->map.degres_y * M_PI / 180)
 		+ z1 * -sin(env->map.degres_y * M_PI / 180);
+	env->map.b2 = env->map.b2 * 1;
 }
 
 int		ft_modif_point(t_env *env, int pos)
@@ -47,9 +46,16 @@ int		ft_modif_point(t_env *env, int pos)
 	y1 = env->map.space * env->map.pos_y + env->map.pos_y;
 	z1 = env->map.tabint[env->map.pos_y][env->map.pos_x];
 	if (pos == 0)
-		return (x1 * 1);
+	{
+		x1 = x1 * 1;
+		x1 = x1 * cos(env->map.degres_x * M_PI / 180) + z1 * sin(env->map.degres_x * M_PI / 180);
+		return (x1);
+	}
 	else if (pos == 1)
-		return (y1 * cos(env->map.degres_y * M_PI / 180) + z1 * -sin(env->map.degres_y * M_PI / 180));
+	{
+		y1 = (y1 * cos(env->map.degres_y * M_PI / 180) + z1 * -sin(env->map.degres_y * M_PI / 180));
+		y1 = y1 * 1;
+	}
 	return (0);
 }
 
@@ -74,13 +80,13 @@ void	ft_next_rotate(t_env *env)
 
 void	ft_rotate(t_env *env, int key)
 {
-	if (key == 88)
+	if (key == 65430)
 		env->map.degres_x += 10;
-	else if (key == 86)
+	else if (key == 65432)
 		env->map.degres_x -= 10;
-	else if (key == 84)
+	else if (key == 65431)
 		env->map.degres_y += 10;
-	else if (key == 91)
+	else if (key == 65433)
 		env->map.degres_y -= 10;
 	while (env->map.pos_y < env->map.len_y)
 	{

@@ -24,10 +24,10 @@ void	ft_init_struct(t_env *env)
 	env->map.color = 0;
 	env->map.space = 40;
 	env->fd = 0;
-	env->size_image_x = 1800;
-	env->size_image_y = 1200;
-	env->size_win_x = 1800;
-	env->size_win_y = 1200;
+	env->size_image_x = 800;
+	env->size_image_y = 500;
+	env->size_win_x = 800;
+	env->size_win_y = 500;
 	env->mlx_ptr = NULL;
 	env->win_ptr = NULL;
 	env->bpb = 0;

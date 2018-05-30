@@ -19,14 +19,14 @@ SRC = main.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 NAME = fdf
 
 all : $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
-	gcc $(FLAGS) -I /usr/local/include *.c libft/*.a -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
+	gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lX11 -lXext -lm 
 
 %.o: %.c
 	gcc $(FLAGS) -c -I include -I libft -I minilibx $^ -o $@

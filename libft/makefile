@@ -77,7 +77,7 @@ SRC =	ft_atoi.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 NAME = libft.a
 
 all: $(NAME)
