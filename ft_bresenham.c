@@ -6,18 +6,20 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/30 16:29:09 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/31 12:23:23 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	print_pixel(t_env *env, int i)
+void	print_pixel(t_env *env)
 {
-	if (((i - (env->size_image_x * env->map.b1)) >= 0) && ((i - (env->size_image_x * env->map.b1)) < env->size_image_x) && i >= 0)
+	int		i;
+
+	i = (env->size_image_x * env->map.b1) + env->map.a1 + env->mouve + env->mouve_vert;
+	if (((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) >= 0) && ((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) < env->size_image_x) && i >= 0)
 		if (i < env->size_image_x * env->size_image_y)
 			env->str[i] = env->map.color;
-	
 }
 
 void	ft_bresenham(t_env *env)
@@ -25,9 +27,7 @@ void	ft_bresenham(t_env *env)
 	int		dx;
 	int		dy;
 	int		e;
-	int		i;
 
-	i = 0;
 	if ((dx = env->map.a2 - env->map.a1) != 0)
 	{
 		if (dx > 0)
@@ -43,8 +43,7 @@ void	ft_bresenham(t_env *env)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
 								break ;
 							if ((e = e - dy) < 0)
@@ -61,8 +60,7 @@ void	ft_bresenham(t_env *env)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
 								break ;
 							if ((e = e - dx) < 0)
@@ -83,8 +81,7 @@ void	ft_bresenham(t_env *env)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
 								break ;
 							if ((e = e + dy) < 0)
@@ -102,8 +99,7 @@ void	ft_bresenham(t_env *env)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
 								break ;
 							if ((e = e + dx) > 0)
@@ -119,8 +115,7 @@ void	ft_bresenham(t_env *env)
 			{
 				while (env->map.a1 != env->map.a2)
 				{
-					i = (env->size_image_x * env->map.b1) + env->map.a1;
-					print_pixel(env, i);
+					print_pixel(env);
 					env->map.a1 = env->map.a1 + 1;
 				}
 			}
@@ -138,8 +133,7 @@ void	ft_bresenham(t_env *env)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
 								break ;
 							if ((e = e + dy) >= 0)
@@ -156,8 +150,7 @@ void	ft_bresenham(t_env *env)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
 								break ;
 							if ((e = e + dx) <= 0)
@@ -177,8 +170,7 @@ void	ft_bresenham(t_env *env)
 						dy = dy * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
 								break ;
 							if ((e = e - dy) >= 0)
@@ -196,8 +188,7 @@ void	ft_bresenham(t_env *env)
 						dx = dx * 2;
 						while (1)
 						{
-							i = (env->size_image_x * env->map.b1) + env->map.a1;
-							print_pixel(env, i);
+							print_pixel(env);
 							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
 								break ;
 							if ((e = e - dx) >= 0)
@@ -213,8 +204,7 @@ void	ft_bresenham(t_env *env)
 			{
 				while (env->map.a1 != env->map.a2)
 				{
-					i = (env->size_image_x * env->map.b1) + env->map.a1;
-					print_pixel(env, i);
+					print_pixel(env);
 					env->map.a1 = env->map.a1 - 1;
 				}
 			}
@@ -228,8 +218,7 @@ void	ft_bresenham(t_env *env)
 			{
 				while (env->map.b1 != env->map.b2)
 				{
-					i = (env->size_image_x * env->map.b1) + env->map.a1;
-						print_pixel(env, i);
+					print_pixel(env);
 					env->map.b1 = env->map.b1 + 1;
 				}
 			}
@@ -237,8 +226,7 @@ void	ft_bresenham(t_env *env)
 			{
 				while (env->map.b1 != env->map.b2)
 				{
-					i = (env->size_image_x * env->map.b1) + env->map.a1;
-					print_pixel(env, i);
+					print_pixel(env);
 					env->map.b1 = env->map.b1 - 1;
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/25 15:27:20 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/31 12:47:53 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef struct					s_env
 {
 	unsigned int	*str;
 	int	fd;
+	int	neg;
+	int	mouve;
+	int	mouve_vert;
 	int size_image_x;
 	int size_image_y;
 	int size_win_x;

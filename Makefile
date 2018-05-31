@@ -6,7 +6,7 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/05/28 19:26:43 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/05/31 11:34:45 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ all : $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
-	gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lX11 -lXext -lm 
+	gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lmlx -framework OpenGL -framework Appkit
+	#gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lX11 -lXext -lm 
 
 %.o: %.c
 	gcc $(FLAGS) -c -I include -I libft -I minilibx $^ -o $@

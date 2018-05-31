@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/30 16:27:58 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/05/31 13:05:41 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,17 @@ void	ft_fill_tab(t_env *env, char **tab)
 		res = 0;
 		while (tab[i][k] && tab[i][k] == ' ')
 			k++;
+		if (tab[i][k] && tab[i][k] == '-' && ft_isdigit(tab[i][k + 1]))
+		{
+			k++;
+			env->neg = 1;
+		}
 		while (tab[i][k] && ft_isdigit(tab[i][k]))
 			res = (res * 10) + (tab[i][k++] - '0');
+		if (env->neg == 1)
+			res = -res;
 		env->map.tabint[i][j++] = res;
+		env->neg = 0;
 		if (tab[i][k] == '\0')
 		{
 			k = 0;
