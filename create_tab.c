@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/31 13:05:41 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/01 12:38:04 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,40 @@ void	ft_createtab(t_env *env, char **tab)
 	ft_fill_tab(env, tab);
 }
 
+char	*ft_checksize(int fd)
+{
+	int		i;
+	int		j;
+	char	*tab;
+	char	*line;
+
+	i = 0;
+	j = 0;
+	tab = NULL;
+	while (get_next_line(fd, &line) == 1)
+	{
+		j = 0;
+		while (line[j])
+		{
+			j++;
+			i++;
+		}
+	}
+	tab = (char *)malloc(sizeof(char) * i);
+	return (tab);
+}
+
 void	ft_parcetab_int(t_env *env, char *str)
 {
 	int		i;
 	int		j;
-	char	tmp[4096];
+	char	*tmp;
 	char	*line;
 	char	**tab;
 
+	env->fd = open(str, O_RDONLY);
+	tmp = ft_checksize(env->fd);
+	close(env->fd);
 	env->fd = open(str, O_RDONLY);
 	i = 0;
 	env->map.len_x = 0;
@@ -83,6 +109,7 @@ void	ft_parcetab_int(t_env *env, char *str)
 		tmp[i++] = '\n';
 	}
 	tmp[i] = '\0';
+	printf("%s\n", tmp);
 	tab = ft_strsplit(tmp, '\n');
 	ft_createtab(env, tab);
 }

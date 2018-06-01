@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/31 12:47:35 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/01 10:40:32 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		main(int ac, char **av)
 	env.mlx_ptr = mlx_init();
 	env.win_ptr = mlx_new_window(env.mlx_ptr, env.size_win_x,
 			env.size_win_y, "On est les boss");
-	if (ac != 2)
+	if (ac != 2 && av[1])
 	{
 		ft_putstr("nombre de parametre incorrecte");
 		return (0);
