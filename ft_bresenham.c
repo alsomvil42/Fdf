@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/31 12:23:23 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/01 15:07:02 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,21 @@ void	print_pixel(t_env *env)
 	i = (env->size_image_x * env->map.b1) + env->map.a1 + env->mouve + env->mouve_vert;
 	if (((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) >= 0) && ((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) < env->size_image_x) && i >= 0)
 		if (i < env->size_image_x * env->size_image_y)
+		{
+			if (env->map.tabint[env->map.pos_y][env->map.pos_x] == 0
+					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] 
+						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] == 0))
+				env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0002E1);
+			else if (env->map.tabint[env->map.pos_y][env->map.pos_x] < 0
+					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1]
+						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] < 0))
+				env->map.color = mlx_get_color_value(env->mlx_ptr, 0xE1E1E1);
+			else if (env->map.tabint[env->map.pos_y][env->map.pos_x] > 0
+					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1]
+						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] > 0))
+				env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0FFF30);
 			env->str[i] = env->map.color;
+		}
 }
 
 void	ft_bresenham(t_env *env)
