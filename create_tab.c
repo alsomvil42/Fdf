@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/01 12:38:04 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/01 13:10:14 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,20 @@ char	*ft_checksize(int fd)
 	return (tab);
 }
 
+int		ft_checktab(char *tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i] != ' ' && tab[i] != '-' && tab[i] != '\n' && !ft_isdigit(tab[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	ft_parcetab_int(t_env *env, char *str)
 {
 	int		i;
@@ -89,7 +103,11 @@ void	ft_parcetab_int(t_env *env, char *str)
 	char	*line;
 	char	**tab;
 
-	env->fd = open(str, O_RDONLY);
+	if ((env->fd = open(str, O_RDONLY)) < 0)
+	{
+		ft_putstr("argument incorrect");
+		exit(0);
+	}
 	tmp = ft_checksize(env->fd);
 	close(env->fd);
 	env->fd = open(str, O_RDONLY);
@@ -109,7 +127,11 @@ void	ft_parcetab_int(t_env *env, char *str)
 		tmp[i++] = '\n';
 	}
 	tmp[i] = '\0';
-	printf("%s\n", tmp);
+	if (ft_checktab(tmp) == 0)
+	{
+		ft_putstr("Le fichier n'est pas une map");
+		exit(0);
+	}
 	tab = ft_strsplit(tmp, '\n');
 	ft_createtab(env, tab);
 }
