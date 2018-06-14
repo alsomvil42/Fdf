@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 23:36:59 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/01 15:07:07 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:17:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int		deal_key(int key, void *param)
 	t_env		*env;
 
 	env = (t_env *)param;
-	printf("%d\n", key);
-	//if (key == 65430 || key == 65432 || key == 65431 || key == 65433)
 	if (key)
 	{
 		ft_create_image(env);
@@ -39,7 +37,6 @@ int		deal_key(int key, void *param)
 				env->mlx_image, 0, 0);
 		mlx_destroy_image(env->mlx_ptr, env->mlx_image);
 	}
-	//if (key == 65307)
 	if (key == 53)
 		exit(1);
 	return (0);

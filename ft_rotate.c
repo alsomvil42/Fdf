@@ -6,13 +6,13 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 13:50:00 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/31 12:29:33 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:16:09 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_rotate_y(t_env *env)
+int		ft_rotate_y(t_env *env, int temp)
 {
 	int		x1;
 	int		y1;
@@ -21,79 +21,76 @@ void	ft_rotate_y(t_env *env)
 	x1 = 0;
 	y1 = 0;
 	z1 = 0;
-	env->map.a1 = env->map.a2;
-	env->map.b1 = env->map.b2;
-	x1 = env->map.space * env->map.pos_x + env->map.pos_x;
-	y1 = env->map.space * env->map.pos_y + env->map.pos_y;
+	x1 = env->map.space * env->map.pos_x;
+	y1 = env->map.space * env->map.pos_y;
 	z1 = env->map.tabint[env->map.pos_y][env->map.pos_x];
-	env->map.a2 = x1 * 1;
-	env->map.a2 = env->map.a2 * cos(env->map.degres_x * M_PI / 180) + z1 * sin(env->map.degres_x * M_PI /180);
-	env->map.b2 = y1 * cos(env->map.degres_y * M_PI / 180)
-		+ z1 * -sin(env->map.degres_y * M_PI / 180);
-	env->map.b2 = env->map.b2 * 1;
-}
-
-int		ft_modif_point(t_env *env, int pos)
-{
-	int		x1;
-	int		y1;
-	int		z1;
-
-	x1 = env->map.space * env->map.pos_x + env->map.pos_x;
-	y1 = env->map.space * env->map.pos_y + env->map.pos_y;
-	z1 = env->map.tabint[env->map.pos_y][env->map.pos_x];
-	if (pos == 0)
+	if (temp == 0)
 	{
-		x1 = x1 * 1;
-		x1 = x1 * cos(env->map.degres_x * M_PI / 180) + z1 * sin(env->map.degres_x * M_PI / 180);
+		x1 = x1 * cos(env->map.degres_x * M_PI / 180)
+			+ z1 * sin(env->map.degres_x * M_PI / 180);
 		return (x1);
 	}
-	else if (pos == 1)
+	if (temp == 1)
 	{
-		y1 = (y1 * cos(env->map.degres_y * M_PI / 180) + z1 * -sin(env->map.degres_y * M_PI / 180));
-		y1 = y1 * 1;
+		y1 = y1 * cos(env->map.degres_y * M_PI / 180)
+			+ z1 * -sin(env->map.degres_y * M_PI / 180);
+		return (y1);
 	}
 	return (0);
 }
 
-void	ft_next_rotate(t_env *env)
+void	ft_next_rotate_2(t_env *env)
 {
+	env->map.pos_x = 0;
+	env->map.pos_y = 0;
 	while (env->map.pos_x < env->map.len_x)
 	{
-		env->map.a2 = ft_modif_point(env, 0);
-		env->map.b2 = ft_modif_point(env, 1);
+		env->map.a1 = ft_rotate_y(env, 0);
+		env->map.b1 = ft_rotate_y(env, 1);
 		while (env->map.pos_y < env->map.len_y)
 		{
-			ft_rotate_y(env);
+			env->map.a2 = ft_rotate_y(env, 0);
+			env->map.b2 = ft_rotate_y(env, 1);
 			ft_bresenham(env);
+			env->map.a1 = env->map.a2;
+			env->map.b1 = env->map.b2;
 			env->map.pos_y++;
 		}
 		env->map.pos_x++;
 		env->map.pos_y = 0;
 	}
-	env->map.pos_x = 0;
-	env->map.pos_y = 0;
 }
 
-void	ft_rotate(t_env *env, int key)
+void	ft_next_rotate(t_env *env)
 {
-	//if (key == 65430)
-	if (key == 88)
-		env->map.degres_x += 10;
-	//else if (key == 65432)
-	if (key == 86)
-		env->map.degres_x -= 10;
-	//else if (key == 65431)
-	if (key == 84)
-		env->map.degres_y += 10;
-	//else if (key == 65433)
-	if (key == 91)
-		env->map.degres_y -= 10;
+	env->map.pos_x = 0;
+	env->map.pos_y = 0;
+	while (env->map.pos_y < env->map.len_y)
+	{
+		env->map.a1 = ft_rotate_y(env, 0);
+		env->map.b1 = ft_rotate_y(env, 1);
+		while (env->map.pos_x < env->map.len_x)
+		{
+			env->map.a2 = ft_rotate_y(env, 0);
+			env->map.b2 = ft_rotate_y(env, 1);
+			ft_bresenham(env);
+			env->map.a1 = env->map.a2;
+			env->map.b1 = env->map.b2;
+			env->map.pos_x++;
+		}
+		env->map.pos_y++;
+		env->map.pos_x = 0;
+	}
+	ft_next_rotate_2(env);
+}
+
+void	ft_rotate_2(t_env *env, int key)
+{
 	if (key == 69)
 		env->map.space += 10;
 	if (key == 78)
 	{
-		env->map.space -= 10;
+		env->map.space -= 2;
 		if (env->map.space < 0)
 			env->map.space = 0;
 	}
@@ -105,20 +102,36 @@ void	ft_rotate(t_env *env, int key)
 		env->mouve_vert -= env->size_image_x * 10;
 	if (key == 125)
 		env->mouve_vert += env->size_image_x * 10;
-	while (env->map.pos_y < env->map.len_y)
-	{
-		env->map.a2 = ft_modif_point(env, 0);
-		env->map.b2 = ft_modif_point(env, 1);
-		while (env->map.pos_x < env->map.len_x)
-		{
-			ft_rotate_y(env);
-			ft_bresenham(env);
-			env->map.pos_x++;
-		}
-		env->map.pos_y++;
-		env->map.pos_x = 0;
-	}
 	env->map.pos_x = 0;
 	env->map.pos_y = 0;
 	ft_next_rotate(env);
+}
+
+void	ft_rotate(t_env *env, int key)
+{
+	if (key == 88)
+	{
+		if (env->map.degres_x >= 360)
+			env->map.degres_x = 0;
+		env->map.degres_x += 10;
+	}
+	if (key == 86)
+	{
+		if (env->map.degres_x < 10)
+			env->map.degres_x = 360;
+		env->map.degres_x -= 10;
+	}
+	if (key == 84)
+	{
+		if (env->map.degres_y >= 360)
+			env->map.degres_y = 0;
+		env->map.degres_y += 10;
+	}
+	if (key == 91)
+	{
+		if (env->map.degres_y < 10)
+			env->map.degres_y = 360;
+		env->map.degres_y -= 10;
+	}
+	ft_rotate_2(env, key);
 }

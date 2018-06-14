@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/05/31 12:47:53 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:44:59 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct					s_env
 //void	ft_setsegment(unsigned int *str, t_window *win);
 //void	ft_trace_map(unsigned int *image, t_window *win);
 int		deal_key(int key, void *param);
+void	ft_createtab(t_env *env, char **tab);
 void	ft_parcetab_int(t_env *env, char *str);
 void	ft_rotate(t_env *env, int key);
 void	ft_bresenham(t_env *env);

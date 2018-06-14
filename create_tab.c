@@ -6,57 +6,11 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/01 13:10:14 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:41:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_fill_tab(t_env *env, char **tab)
-{
-	int		i;
-	int		j;
-	int		k;
-	int		res;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (tab[i])
-	{
-		res = 0;
-		while (tab[i][k] && tab[i][k] == ' ')
-			k++;
-		if (tab[i][k] && tab[i][k] == '-' && ft_isdigit(tab[i][k + 1]))
-		{
-			k++;
-			env->neg = 1;
-		}
-		while (tab[i][k] && ft_isdigit(tab[i][k]))
-			res = (res * 10) + (tab[i][k++] - '0');
-		if (env->neg == 1)
-			res = -res;
-		env->map.tabint[i][j++] = res;
-		env->neg = 0;
-		if (tab[i][k] == '\0')
-		{
-			k = 0;
-			j = 0;
-			i++;
-		}
-	}
-}
-
-void	ft_createtab(t_env *env, char **tab)
-{
-	int		i;
-
-	i = 0;
-	env->map.tabint = ft_memalloc(sizeof(int *) * (env->map.len_y + 1));
-	while (i < env->map.len_y)
-		env->map.tabint[i++] = ft_memalloc(sizeof(int) * (env->map.len_x + 1));
-	ft_fill_tab(env, tab);
-}
 
 char	*ft_checksize(int fd)
 {
@@ -88,31 +42,37 @@ int		ft_checktab(char *tab)
 	i = 0;
 	while (tab[i])
 	{
-		if (tab[i] != ' ' && tab[i] != '-' && tab[i] != '\n' && !ft_isdigit(tab[i]))
+		if (tab[i] != ' ' && tab[i] != '-'
+				&& tab[i] != '\n' && !ft_isdigit(tab[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-void	ft_parcetab_int(t_env *env, char *str)
+void	ft_error(int error)
 {
-	int		i;
-	int		j;
-	char	*tmp;
-	char	*line;
-	char	**tab;
-
-	if ((env->fd = open(str, O_RDONLY)) < 0)
+	if (error == 0)
 	{
 		ft_putstr("argument incorrect");
 		exit(0);
 	}
-	tmp = ft_checksize(env->fd);
-	close(env->fd);
-	env->fd = open(str, O_RDONLY);
+	if (error == 1)
+	{
+		ft_putstr("Le fichier n'est pas une map");
+		exit(0);
+	}
+}
+
+void	ft_fill_tab_int(t_env *env, char *tmp)
+{
+	int		j;
+	int		i;
+	char	*line;
+
+	j = 0;
 	i = 0;
-	env->map.len_x = 0;
+	line = NULL;
 	while (get_next_line(env->fd, &line) == 1)
 	{
 		env->map.len_x = 0;
@@ -127,11 +87,22 @@ void	ft_parcetab_int(t_env *env, char *str)
 		tmp[i++] = '\n';
 	}
 	tmp[i] = '\0';
+}
+
+void	ft_parcetab_int(t_env *env, char *str)
+{
+	char	*tmp;
+	char	**tab;
+
+	if ((env->fd = open(str, O_RDONLY)) < 0)
+		ft_error(0);
+	tmp = ft_checksize(env->fd);
+	close(env->fd);
+	env->fd = open(str, O_RDONLY);
+	env->map.len_x = 0;
+	ft_fill_tab_int(env, tmp);
 	if (ft_checktab(tmp) == 0)
-	{
-		ft_putstr("Le fichier n'est pas une map");
-		exit(0);
-	}
+		ft_error(1);
 	tab = ft_strsplit(tmp, '\n');
 	ft_createtab(env, tab);
 }

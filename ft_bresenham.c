@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/01 15:07:02 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/14 19:05:20 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,16 @@ void	print_pixel(t_env *env)
 {
 	int		i;
 
-	i = (env->size_image_x * env->map.b1) + env->map.a1 + env->mouve + env->mouve_vert;
-	if (((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) >= 0) && ((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) < env->size_image_x) && i >= 0)
+	i = (env->size_image_x * env->map.b1) + env->map.a1
+		+ env->mouve + env->mouve_vert;
+	if (((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) >= 0)
+			&& ((i - (env->size_image_x * env->map.b1
+						+ env->mouve_vert)) < env->size_image_x) && i >= 0)
 		if (i < env->size_image_x * env->size_image_y)
 		{
-			if (env->map.tabint[env->map.pos_y][env->map.pos_x] == 0
-					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] 
-						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] == 0))
-				env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0002E1);
-			else if (env->map.tabint[env->map.pos_y][env->map.pos_x] < 0
-					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1]
-						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] < 0))
+			if (env->map.tabint[env->map.pos_y][env->map.pos_x] <= 0)
 				env->map.color = mlx_get_color_value(env->mlx_ptr, 0xE1E1E1);
-			else if (env->map.tabint[env->map.pos_y][env->map.pos_x] > 0
-					|| (env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1]
-						&& env->map.tabint[env->map.pos_y - 1][env->map.pos_x - 1] > 0))
+			else if (env->map.tabint[env->map.pos_y][env->map.pos_x] > 0)
 				env->map.color = mlx_get_color_value(env->mlx_ptr, 0x0FFF30);
 			env->str[i] = env->map.color;
 		}
@@ -52,8 +47,8 @@ void	ft_bresenham(t_env *env)
 				{
 					if (dx >= dy)
 					{
-						e = 0;
-						dx = (e = dx) * 2;
+						e = dx;
+						dx = dx * 2;
 						dy = dy * 2;
 						while (1)
 						{
@@ -69,8 +64,8 @@ void	ft_bresenham(t_env *env)
 					}
 					else
 					{
-						e = 0;
-						dy = (e = dy) * 2;
+						e = dy;
+						dy = dy * 2;
 						dx = dx * 2;
 						while (1)
 						{
@@ -89,9 +84,8 @@ void	ft_bresenham(t_env *env)
 				{
 					if (dx >= -dy)
 					{
-//
-						e = 0;
-						dx = (e = dx) * 2;
+						e = dx;
+						dx = dx * 2;
 						dy = dy * 2;
 						while (1)
 						{
@@ -104,12 +98,11 @@ void	ft_bresenham(t_env *env)
 								e = e + dx;
 							}
 						}
-						
 					}
 					else
 					{
-						e = 0;
-						dy = (e = dy) * 2;
+						e = dy;
+						dy = dy * 2;
 						dx = dx * 2;
 						while (1)
 						{
@@ -142,8 +135,8 @@ void	ft_bresenham(t_env *env)
 				{
 					if (-dx >= dy)
 					{
-						e = 0;
-						dx = (e = dx) * 2;
+						e = dx;
+						dx = dx * 2;
 						dy = dy * 2;
 						while (1)
 						{
@@ -159,8 +152,8 @@ void	ft_bresenham(t_env *env)
 					}
 					else
 					{
-						e = 0;
-						dy = (e = dy) * 2;
+						e = dy;
+						dy = dy * 2;
 						dx = dx * 2;
 						while (1)
 						{
@@ -179,8 +172,8 @@ void	ft_bresenham(t_env *env)
 				{
 					if (dx <= dy)
 					{
-						e = 0;
-						dx = (e = dx) * 2;
+						e = dx;
+						dx = dx * 2;
 						dy = dy * 2;
 						while (1)
 						{
@@ -193,12 +186,12 @@ void	ft_bresenham(t_env *env)
 								e = e + dx;
 							}
 						}
-						
+
 					}
 					else
 					{
-						e = 0;
-						dy = (e = dy) * 2;
+						e = dy;
+						dy = dy * 2;
 						dx = dx * 2;
 						while (1)
 						{
@@ -224,28 +217,24 @@ void	ft_bresenham(t_env *env)
 			}
 		}
 	}
-	else
+	else if ((dy = env->map.b2 - env->map.b1) != 0)
 	{
-		if ((dy = env->map.b2 - env->map.b1) != 0)
+		if (dy > 0)
 		{
-			if (dy > 0)
+			while (env->map.b1 != env->map.b2)
 			{
-				while (env->map.b1 != env->map.b2)
-				{
-					print_pixel(env);
-					env->map.b1 = env->map.b1 + 1;
-				}
+				print_pixel(env);
+				env->map.b1 = env->map.b1 + 1;
 			}
-			else
+		}
+		else
+		{
+			while (env->map.b1 != env->map.b2)
 			{
-				while (env->map.b1 != env->map.b2)
-				{
-					print_pixel(env);
-					env->map.b1 = env->map.b1 - 1;
-				}
+				print_pixel(env);
+				env->map.b1 = env->map.b1 - 1;
 			}
 		}
 	}
 	return ;
 }
-
