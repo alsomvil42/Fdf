@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/14 18:44:59 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/18 10:47:03 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct					s_map
 	int	b1;
 	int	a2;
 	int	b2;
+	int	x;
+	int	y;
+	int	dx;
+	int dy;
+	int xinc;
+	int yinc;
 	int	space;
 	unsigned int	color;
 }								t_map;

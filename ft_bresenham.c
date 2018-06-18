@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 08:53:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/14 19:05:20 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/18 11:07:45 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	print_pixel(t_env *env)
 {
 	int		i;
 
-	i = (env->size_image_x * env->map.b1) + env->map.a1
+	i = (env->size_image_x * env->map.y) + env->map.x
 		+ env->mouve + env->mouve_vert;
-	if (((i - (env->size_image_x * env->map.b1 + env->mouve_vert)) >= 0)
-			&& ((i - (env->size_image_x * env->map.b1
+	if (((i - (env->size_image_x * env->map.y + env->mouve_vert)) >= 0)
+			&& ((i - (env->size_image_x * env->map.y
 						+ env->mouve_vert)) < env->size_image_x) && i >= 0)
 		if (i < env->size_image_x * env->size_image_y)
 		{
@@ -31,210 +31,63 @@ void	print_pixel(t_env *env)
 		}
 }
 
+void	print_seg_down(t_env *env)
+{
+	int		cumul;
+	int		i;
+
+	cumul = env->map.dx / 2;
+	i = 1;
+	while (i <= env->map.dx)
+	{
+		env->map.x += env->map.xinc;
+		cumul += env->map.dy;
+		if (cumul >= env->map.dx)
+		{
+			cumul -= env->map.dx;
+			env->map.y += env->map.yinc;
+		}
+		print_pixel(env);
+		i++;
+	}
+}
+
+void	print_seg_up(t_env *env)
+{
+	int		cumul;
+	int		i;
+
+	cumul = env->map.dy / 2;
+	i = 1;
+	while (i <= env->map.dy)
+	{
+		env->map.y += env->map.yinc;
+		cumul += env->map.dx;
+		if (cumul >= env->map.dy)
+		{
+			cumul -= env->map.dy;
+			env->map.x += env->map.xinc;
+		}
+		print_pixel(env);
+		i++;
+	}
+}
+
 void	ft_bresenham(t_env *env)
 {
-	int		dx;
-	int		dy;
-	int		e;
-
-	if ((dx = env->map.a2 - env->map.a1) != 0)
-	{
-		if (dx > 0)
-		{
-			if ((dy = env->map.b2 - env->map.b1) != 0)
-			{
-				if (dy > 0)
-				{
-					if (dx >= dy)
-					{
-						e = dx;
-						dx = dx * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
-								break ;
-							if ((e = e - dy) < 0)
-							{
-								env->map.b1 = env->map.b1 + 1;
-								e = e + dx;
-							}
-						}
-					}
-					else
-					{
-						e = dy;
-						dy = dy * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
-								break ;
-							if ((e = e - dx) < 0)
-							{
-								env->map.a1 = env->map.a1 + 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (dx >= -dy)
-					{
-						e = dx;
-						dx = dx * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.a1 = env->map.a1 + 1) == env->map.a2)
-								break ;
-							if ((e = e + dy) < 0)
-							{
-								env->map.b1 = env->map.b1 - 1;
-								e = e + dx;
-							}
-						}
-					}
-					else
-					{
-						e = dy;
-						dy = dy * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
-								break ;
-							if ((e = e + dx) > 0)
-							{
-								env->map.a1 = env->map.a1 + 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				while (env->map.a1 != env->map.a2)
-				{
-					print_pixel(env);
-					env->map.a1 = env->map.a1 + 1;
-				}
-			}
-		}
-		else
-		{
-			if ((dy = env->map.b2 - env->map.b1) != 0)
-			{
-				if (dy > 0)
-				{
-					if (-dx >= dy)
-					{
-						e = dx;
-						dx = dx * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
-								break ;
-							if ((e = e + dy) >= 0)
-							{
-								env->map.b1 = env->map.b1 + 1;
-								e = e + dx;
-							}
-						}
-					}
-					else
-					{
-						e = dy;
-						dy = dy * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.b1 = env->map.b1 + 1) == env->map.b2)
-								break ;
-							if ((e = e + dx) <= 0)
-							{
-								env->map.a1 = env->map.a1 - 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (dx <= dy)
-					{
-						e = dx;
-						dx = dx * 2;
-						dy = dy * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.a1 = env->map.a1 - 1) == env->map.a2)
-								break ;
-							if ((e = e - dy) >= 0)
-							{
-								env->map.b1 = env->map.b1 - 1;
-								e = e + dx;
-							}
-						}
-
-					}
-					else
-					{
-						e = dy;
-						dy = dy * 2;
-						dx = dx * 2;
-						while (1)
-						{
-							print_pixel(env);
-							if ((env->map.b1 = env->map.b1 - 1) == env->map.b2)
-								break ;
-							if ((e = e - dx) >= 0)
-							{
-								env->map.a1 = env->map.a1 - 1;
-								e = e + dy;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				while (env->map.a1 != env->map.a2)
-				{
-					print_pixel(env);
-					env->map.a1 = env->map.a1 - 1;
-				}
-			}
-		}
-	}
-	else if ((dy = env->map.b2 - env->map.b1) != 0)
-	{
-		if (dy > 0)
-		{
-			while (env->map.b1 != env->map.b2)
-			{
-				print_pixel(env);
-				env->map.b1 = env->map.b1 + 1;
-			}
-		}
-		else
-		{
-			while (env->map.b1 != env->map.b2)
-			{
-				print_pixel(env);
-				env->map.b1 = env->map.b1 - 1;
-			}
-		}
-	}
-	return ;
+	env->map.x = env->map.a1;
+	env->map.y = env->map.b1;
+	env->map.dx = env->map.a2 - env->map.a1;
+	env->map.dy = env->map.b2 - env->map.b1;
+	env->map.xinc = (env->map.dx > 0) ? 1 : -1;
+	env->map.yinc = (env->map.dy > 0) ? 1 : -1;
+	if (env->map.dx < 0)
+		env->map.dx *= -1;
+	if (env->map.dy < 0)
+		env->map.dy *= -1;
+	print_pixel(env);
+	if (env->map.dx > env->map.dy)
+		print_seg_down(env);
+	else
+		print_seg_up(env);
 }

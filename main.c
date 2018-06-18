@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/13 13:01:02 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/18 12:22:41 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ void	ft_init_struct(t_env *env)
 
 int		main(int ac, char **av)
 {
-	t_env	env;
+	//t_env	env;
 
-	ft_init_struct(&env);
+	if (ac != 2)
+	{
+		/*ft_putstr("nombre de parametre incorrecte");
+		exit(0);*/
+	}
+	av[0] = NULL;
+	/*ft_init_struct(&env);
 	env.mlx_ptr = mlx_init();
 	env.win_ptr = mlx_new_window(env.mlx_ptr, env.size_win_x,
 			env.size_win_y, "On est les boss");
-	if (ac != 2)
-	{
-		ft_putstr("nombre de parametre incorrecte");
-		exit(0);
-	}
 	ft_parcetab_int(&env, av[1]);
 	mlx_key_hook(env.win_ptr, deal_key, (void *)&env);
-	mlx_loop(env.mlx_ptr);
+	mlx_loop(env.mlx_ptr);*/
 	return (0);
 }
