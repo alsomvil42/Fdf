@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/04 14:12:38 by alsomvil          #+#    #+#             */
-/*   Updated: 2017/12/04 14:27:56 by alsomvil         ###   ########.fr       */
+/*   Created: 2017/11/26 17:13:42 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/11/26 17:25:18 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int				len;
-	unsigned int	i;
-	char			*tab;
+	int		i;
+	int		ls;
+	char	*ps;
 
-	len = 0;
 	i = 0;
-	while (s[len])
-		len++;
-	len++;
-	if (!(tab = malloc(sizeof(char) * len)))
-		return (NULL);
-	while (s[i])
+	ls = 0;
+	ps = NULL;
+	if (s != NULL && f != NULL)
 	{
-		tab[i] = f(i, s[i]);
-		i++;
+		ps = ft_strdup(s);
+		if (ps == NULL)
+			return (NULL);
+		while (s[i] != '\0')
+		{
+			ps[i] = f(i, s[i]);
+			i++;
+		}
 	}
-	tab[i] = '\0';
-	return (tab);
+	return (ps);
 }

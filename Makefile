@@ -6,17 +6,16 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/06/18 12:24:45 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/06/20 10:45:10 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
-	 # get_next_line.c \
-	 # create_tab.c \
-	 # deal_key.c \
-	 # ft_rotate.c \
-	 # ft_bresenham.c \
-	 # ft_create_tab_int.c \
+	 create_tab.c \
+	 deal_key.c \
+	 ft_rotate.c \
+	 ft_bresenham.c \
+	 ft_create_tab_int.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

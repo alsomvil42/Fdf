@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:38:37 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/14 18:44:03 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/20 12:25:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	ft_createtab(t_env *env, char **tab)
 	int		i;
 
 	i = 0;
-	env->map.tabint = ft_memalloc(sizeof(int *) * (env->map.len_y + 1));
+	env->map.tabint = ft_memalloc(sizeof(int *) * (env->map.len_y));
 	while (i < env->map.len_y)
-		env->map.tabint[i++] = ft_memalloc(sizeof(int) * (env->map.len_x + 1));
+		env->map.tabint[i++] = ft_memalloc(sizeof(int) * (env->map.len_x));
 	ft_fill_tab(env, tab);
 }

@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/01 00:57:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2017/12/01 02:35:13 by alsomvil         ###   ########.fr       */
+/*   Created: 2017/11/25 16:54:00 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/11/25 17:14:28 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-char	*ft_strstr(const char *haystack, const char *needle)
+char	*ft_strstr(const char *big, const char *little)
 {
-	int		i;
-	int		j;
-	int		temp;
-	char	*temphay;
+	size_t	i;
+	size_t	j;
+	size_t	llittle;
+	char	*pbig;
 
 	i = 0;
 	j = 0;
-	temphay = (char *)haystack;
-	if (needle[i] == '\0')
-		return (temphay);
-	while (temphay[j])
+	llittle = ft_strlen(little);
+	pbig = (char*)big;
+	if (llittle == 0)
+		return (pbig);
+	while (pbig[i] != '\0')
 	{
-		if (needle[i] == temphay[j])
+		while (pbig[i + j] == little[j])
 		{
-			temp = j;
-			while (needle[i++] == temphay[j++])
-				if (needle[i] == '\0')
-					return (&temphay[temp]);
-			j = temp;
-			i = 0;
+			if (j == llittle - 1)
+				return (pbig + i);
+			j++;
 		}
-		j++;
+		j = 0;
+		i++;
 	}
-	return (NULL);
+	return (0);
 }

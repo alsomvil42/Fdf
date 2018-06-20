@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memccpy.c                                          :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 00:03:37 by alsomvil          #+#    #+#             */
-/*   Updated: 2017/11/26 22:24:26 by alsomvil         ###   ########.fr       */
+/*   Created: 2017/11/23 19:17:53 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/11/26 11:17:51 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
 	size_t			i;
-	unsigned char	tmp;
-	unsigned char	*tmpdest;
-	unsigned char	*tmpsrc;
+	unsigned char	*pdst;
+	unsigned char	*psrc;
+	unsigned char	pc;
 
 	i = 0;
-	tmp = (unsigned char)c;
-	tmpdest = (unsigned char *)dest;
-	tmpsrc = (unsigned char *)src;
-	while (i < n)
+	pdst = (unsigned char*)dst;
+	psrc = (unsigned char*)src;
+	pc = (unsigned char)c;
+	while (i < n && (i == 0 || psrc[i - 1] != pc))
 	{
-		tmpdest[i] = tmpsrc[i];
-		if (tmpsrc[i] == tmp)
-			return (tmpdest + i + 1);
+		pdst[i] = psrc[i];
 		i++;
 	}
+	if (i > 0 && psrc[i - 1] == pc)
+		return (pdst + i);
 	return (NULL);
 }

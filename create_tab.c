@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/18 12:02:04 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/20 14:28:29 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ char	*ft_checksize(int fd)
 	tab = NULL;
 	while (get_next_line(fd, &line) == 1)
 	{
-		j = 0;
 		while (line[j])
 		{
 			j++;
 			i++;
 		}
+		i++;
+		j = 0;
+		free(line);
 	}
-	tab = (char *)malloc(sizeof(char) * i);
+	tab = (char *)malloc(sizeof(char) * (i + 1));
 	return (tab);
 }
 
@@ -64,45 +66,57 @@ void	ft_error(int error)
 	}
 }
 
-void	ft_fill_tab_int(t_env *env, char *tmp)
+char	*ft_fill_beforechar(t_env *env, char *tmp)
 {
 	int		j;
 	int		i;
 	char	*line;
 
-	j = 0;
 	i = 0;
 	line = NULL;
+	env->map.len_y = 0;
 	while (get_next_line(env->fd, &line) == 1)
 	{
 		env->map.len_x = 0;
 		j = 0;
 		while (line[j] != '\0')
+		{
 			if (line[j] && line[j] != ' ' && env->map.len_x++)
 				while (line[j] && line[j] != ' ')
 					tmp[i++] = line[j++];
 			else
 				tmp[i++] = line[j++];
+		}
 		env->map.len_y++;
 		tmp[i++] = '\n';
+		free(line);
 	}
-	tmp[i] = '\0';
+	tmp[--i] = '\0';
+	return (tmp);
 }
 
 void	ft_parcetab_int(t_env *env, char *str)
 {
-	char	*tmp;
+	int		i;
+	char	*beforechar;
 	char	**tab;
 
+	i = 0;
 	if ((env->fd = open(str, O_RDONLY)) < 0)
 		ft_error(0);
-	tmp = ft_checksize(env->fd);
+	beforechar = ft_checksize(env->fd);
 	close(env->fd);
 	env->fd = open(str, O_RDONLY);
-	env->map.len_x = 0;
-	ft_fill_tab_int(env, tmp);
-	if (ft_checktab(tmp) == 0)
+	beforechar = ft_fill_beforechar(env, beforechar);
+	if (ft_checktab(beforechar) == 0)
 		ft_error(1);
-	tab = ft_strsplit(tmp, '\n');
+	tab = ft_strsplit(beforechar, '\n');
 	ft_createtab(env, tab);
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	free(beforechar);
 }

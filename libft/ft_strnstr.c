@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/01 02:38:43 by alsomvil          #+#    #+#             */
-/*   Updated: 2017/12/06 07:43:44 by alsomvil         ###   ########.fr       */
+/*   Created: 2017/11/25 17:40:08 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/11/25 18:20:15 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	int		i;
+	size_t	i;
 	size_t	j;
-	int		temp;
-	char	*temphay;
+	size_t	llittle;
+	char	*pbig;
 
 	i = 0;
 	j = 0;
-	temphay = (char *)haystack;
-	if (needle[i] == '\0' || needle == haystack)
-		return (temphay);
-	while (temphay[j] && j < len)
+	llittle = ft_strlen(little);
+	pbig = (char*)big;
+	if (llittle == 0)
+		return (pbig);
+	while (pbig[i] != '\0')
 	{
-		if (needle[i] == temphay[j])
+		while (pbig[i + j] == little[j] && i + j < len)
 		{
-			temp = j;
-			while (temphay[j] && needle[i++] == temphay[j])
-				if (j++ < len && needle[i] == '\0')
-					return (&temphay[temp]);
-			j = temp;
-			i = 0;
+			if (j == llittle - 1)
+				return (pbig + i);
+			j++;
 		}
-		j++;
+		j = 0;
+		i++;
 	}
-	return (NULL);
+	return (0);
 }
