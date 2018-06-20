@@ -6,7 +6,7 @@
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 11:55:22 by hbruvry           #+#    #+#             */
-/*   Updated: 2018/02/20 13:21:05 by hbruvry          ###   ########.fr       */
+/*   Updated: 2018/06/20 14:42:33 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 
 # define BUFF_SIZE 4096
 
