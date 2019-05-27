@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:27:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/20 14:30:20 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/25 14:35:47 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		main(int ac, char **av)
 	ft_init_struct(&env);
 	env.mlx_ptr = mlx_init();
 	env.win_ptr = mlx_new_window(env.mlx_ptr, env.size_win_x,
-			env.size_win_y, "On est les boss");
+			env.size_win_y, "Projet : FDF");
 	ft_parcetab_int(&env, av[1]);
 	mlx_key_hook(env.win_ptr, deal_key, (void *)&env);
 	mlx_loop(env.mlx_ptr);

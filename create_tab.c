@@ -6,11 +6,25 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 11:27:28 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/20 14:28:29 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/03 02:51:04 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	ft_error(int error)
+{
+	if (error == 0)
+	{
+		ft_putstr("argument incorrect");
+		exit(0);
+	}
+	if (error == 1)
+	{
+		ft_putstr("Le fichier n'est pas une map");
+		exit(0);
+	}
+}
 
 char	*ft_checksize(int fd)
 {
@@ -18,20 +32,20 @@ char	*ft_checksize(int fd)
 	int		j;
 	char	*tab;
 	char	*line;
+	int		temp;
 
 	i = 0;
 	j = 0;
 	tab = NULL;
 	while (get_next_line(fd, &line) == 1)
 	{
-		while (line[j])
-		{
-			j++;
+		while (line[j++])
 			i++;
-		}
 		i++;
 		j = 0;
 		free(line);
+		if (i > 1000000 || i == 0)
+			exit(0);
 	}
 	tab = (char *)malloc(sizeof(char) * (i + 1));
 	return (tab);
@@ -52,41 +66,27 @@ int		ft_checktab(char *tab)
 	return (1);
 }
 
-void	ft_error(int error)
+char	*ft_fill_beforechar(t_env *env, char *tmp, int i, int j)
 {
-	if (error == 0)
-	{
-		ft_putstr("argument incorrect");
-		exit(0);
-	}
-	if (error == 1)
-	{
-		ft_putstr("Le fichier n'est pas une map");
-		exit(0);
-	}
-}
-
-char	*ft_fill_beforechar(t_env *env, char *tmp)
-{
-	int		j;
-	int		i;
 	char	*line;
 
-	i = 0;
-	line = NULL;
-	env->map.len_y = 0;
 	while (get_next_line(env->fd, &line) == 1)
 	{
-		env->map.len_x = 0;
 		j = 0;
+		env->temp = 0;
 		while (line[j] != '\0')
 		{
-			if (line[j] && line[j] != ' ' && env->map.len_x++)
+			if (line[j] && line[j] != ' ')
+			{
+				env->temp++;
 				while (line[j] && line[j] != ' ')
 					tmp[i++] = line[j++];
+			}
 			else
 				tmp[i++] = line[j++];
 		}
+		if (env->temp >= env->map.len_x)
+			env->map.len_x = env->temp;
 		env->map.len_y++;
 		tmp[i++] = '\n';
 		free(line);
@@ -98,16 +98,18 @@ char	*ft_fill_beforechar(t_env *env, char *tmp)
 void	ft_parcetab_int(t_env *env, char *str)
 {
 	int		i;
+	int		j;
 	char	*beforechar;
 	char	**tab;
 
 	i = 0;
-	if ((env->fd = open(str, O_RDONLY)) < 0)
+	j = 0;
+	if ((env->fd = open(str, O_RDWR)) < 0)
 		ft_error(0);
 	beforechar = ft_checksize(env->fd);
 	close(env->fd);
-	env->fd = open(str, O_RDONLY);
-	beforechar = ft_fill_beforechar(env, beforechar);
+	env->fd = open(str, O_RDWR);
+	beforechar = ft_fill_beforechar(env, beforechar, i, j);
 	if (ft_checktab(beforechar) == 0)
 		ft_error(1);
 	tab = ft_strsplit(beforechar, '\n');

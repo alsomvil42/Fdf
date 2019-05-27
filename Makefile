@@ -6,40 +6,49 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/06/20 10:45:10 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/07/03 01:21:15 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
-	 create_tab.c \
-	 deal_key.c \
-	 ft_rotate.c \
-	 ft_bresenham.c \
-	 ft_create_tab_int.c \
+	  create_tab.c \
+	  deal_key.c \
+	  ft_rotate.c \
+	  ft_bresenham.c \
+	  ft_create_tab_int.c \
+	  ft_pasdeplace.c
 
+MLX = -L /usr/local/lib/ -lmlx -framework OpenGl -framework Appkit
 OBJ = $(SRC:.c=.o)
 CC = gcc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS =  -Wall -Wextra -Werror
 NAME = fdf
+_GREEN = $ \033[32m
+_YELLOW = $ \033[33m
+_RED = $ \033[31m
+_END = $ \033[0m
 
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	make -C libft
-	gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lmlx -framework OpenGL -framework Appkit
-	#gcc $(FLAGS) -I /usr/local/include *.c minilibx/libmlx.a libft/*.a -L /usr/local/lib -lX11 -lXext -lm 
+	@$(MAKE) -C libft
+	@gcc $(CFLAGS) -o $(NAME) -I /usr/local/include/ $(OBJ) libft/libft.a $(MLX)
+	@echo "$(_GREEN)fdf compiled$(_END)"
 
 %.o: %.c
-	gcc $(FLAGS) -c -I include -I libft -I minilibx $^ -o $@
+	@$(CC) -c $(CFLAGS) -I. $< -o $@
 
-clean :
-	make clean -C libft
-	rm -rf *.o 
+clean:
+	@$(MAKE) clean -C libft
+	@rm -f $(OBJ)
+	@echo "libft cleaned"
+	@echo "fdf cleaned"
 
 fclean: clean
-	make fclean -C libft
-	rm -rf $(NAME)
+	@$(MAKE) fclean -C libft
+	@rm -f $(NAME)
+	@echo "fdf fcleaned"
 
 re: fclean all
 
-.PHONY: all clean fclean re norme
+.PHONY: libft clean fclean all re

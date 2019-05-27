@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 13:50:00 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/18 11:01:42 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/03 01:20:53 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@ int		ft_rotate_y(t_env *env, int temp)
 	int		x1;
 	int		y1;
 	int		z1;
+	int		x1temp;
 
-	x1 = 0;
-	y1 = 0;
-	z1 = 0;
+	x1temp = 0;
 	x1 = env->map.space * env->map.pos_x;
 	y1 = env->map.space * env->map.pos_y;
 	z1 = env->map.tabint[env->map.pos_y][env->map.pos_x];
 	if (temp == 0)
 	{
+		x1temp = x1;
 		x1 = x1 * cos(env->map.degres_x * M_PI / 180)
 			+ z1 * sin(env->map.degres_x * M_PI / 180);
+		env->map.z1temp = x1temp * -sin(env->map.degres_x * M_PI / 180)
+			+ z1 * cos(env->map.degres_x * M_PI / 180);
 		return (x1);
 	}
 	if (temp == 1)
 	{
 		y1 = y1 * cos(env->map.degres_y * M_PI / 180)
-			+ z1 * -sin(env->map.degres_y * M_PI / 180);
+			+ env->map.z1temp * -sin(env->map.degres_y * M_PI / 180);
 		return (y1);
 	}
 	return (0);
@@ -86,8 +88,9 @@ void	ft_next_rotate(t_env *env)
 
 void	ft_rotate_2(t_env *env, int key)
 {
+	ft_pasdeplace(env, key);
 	if (key == 69)
-		env->map.space += 10;
+		env->map.space += 2;
 	if (key == 78)
 	{
 		env->map.space -= 2;
@@ -104,6 +107,7 @@ void	ft_rotate_2(t_env *env, int key)
 		env->mouve_vert += env->size_image_x * 10;
 	env->map.pos_x = 0;
 	env->map.pos_y = 0;
+	env->map.z1temp = 0;
 	ft_next_rotate(env);
 }
 

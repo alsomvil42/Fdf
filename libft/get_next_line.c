@@ -6,7 +6,7 @@
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 14:40:27 by hbruvry           #+#    #+#             */
-/*   Updated: 2018/01/31 07:40:59 by hbruvry          ###   ########.fr       */
+/*   Updated: 2018/07/03 02:52:18 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		get_next_line(const int fd, char **line)
 		if (ft_linesplit(line, &str[fd]))
 			return (1);
 	}
-	if (str[fd][0] == '\0')
+	if (!str[fd] || str[fd][0] == '\0')
 		return (0);
 	if (!ft_linesplit(line, &str[fd]))
 	{

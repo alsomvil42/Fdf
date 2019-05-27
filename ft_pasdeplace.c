@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striter.c                                       :+:      :+:    :+:   */
+/*   ft_pasdeplace.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 16:11:29 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/11/26 17:15:55 by hbruvry          ###   ########.fr       */
+/*   Created: 2018/06/21 13:58:50 by alsomvil          #+#    #+#             */
+/*   Updated: 2018/06/21 14:00:12 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft.h"
+#include "fdf.h"
 
-void	ft_striter(char *s, void (*f)(char *))
+void		ft_pasdeplace(t_env *env, int key)
 {
-	int	i;
-
-	i = 0;
-	if (s != NULL && f != NULL)
+	if (key == 15)
 	{
-		while (s[i] != '\0')
-		{
-			f(s + i);
-			i++;
-		}
+		env->map.space = 10;
+		env->mouve = 0;
+		env->mouve_vert = 0;
+		env->map.degres_x = 0;
+		env->map.degres_y = 0;
 	}
-	return ;
 }

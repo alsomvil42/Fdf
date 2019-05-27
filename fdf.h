@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 01:31:58 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/20 14:36:52 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/03 01:22:19 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdlib.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
 
 typedef struct			s_map
 {
@@ -36,6 +36,7 @@ typedef struct			s_map
 	int				a2;
 	int				b2;
 	int				x;
+	int				z1temp;;
 	int				y;
 	int				dx;
 	int				dy;
@@ -62,6 +63,7 @@ typedef struct			s_env
 	int				bpb;
 	int				s_line;
 	int				endian;
+	int				temp;
 	t_map			map;
 }						t_env;
 
@@ -70,5 +72,6 @@ void					ft_createtab(t_env *env, char **tab);
 void					ft_parcetab_int(t_env *env, char *str);
 void					ft_rotate(t_env *env, int key);
 void					ft_bresenham(t_env *env);
+void					ft_pasdeplace(t_env *env, int key);
 
 #endif
